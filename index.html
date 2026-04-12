@@ -399,6 +399,21 @@
                          <span class="opacity-30 text-[10px]">VIDEO_PLAYER_02</span>
                     </div>
                 </div>
+                <!-- Surah Al Mulk - The Kingdom -->
+                <div class="glass-panel border-purple-500/30" id="surah-67-video-container" style="display: none;">
+                    <h4 class="text-purple-400 mb-4 uppercase tracking-widest text-xs">Surah 67 Reflection</h4>
+                    <div class="aspect-video bg-zinc-900 rounded-2xl">
+                        <iframe 
+                            width="100%" 
+                            height="100%" 
+                            src="https://youtu.be/THJmN1rQu2Y" 
+                            title="Surah 67 Reflection" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -722,6 +737,14 @@ function openSurah(id) {
     
     overlay.style.display = 'flex';
     gsap.to(overlay, { opacity: 1, duration: 0.5 });
+    
+const surah67VideoContainer = document.getElementById('surah-67-video-container');
+    if (id === 67) {
+        surah67VideoContainer.style.display = 'block';
+    } else {
+        surah67VideoContainer.style.display = 'none';
+    }
+    // --- NEW CODE END ---
 }
 
 function closeSurah() {
