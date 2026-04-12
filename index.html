@@ -153,6 +153,14 @@
 }
 .blink-red { animation: blink 2s infinite; color: #ff4444; }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+         .hero-title { 
+    font-family: 'Syne', sans-serif; 
+    /* clamp(min-size, scaling-size, max-size) */
+    font-size: clamp(40px, 10vw, 180px); 
+    line-height: 0.85; 
+    width: 100%;
+    word-wrap: break-word; /* Ensures it doesn't push the screen wide */
+}
 
 </style>
 </head>
@@ -181,10 +189,10 @@
     </nav>
 
     <main id="hero-container" class="min-h-screen flex flex-col justify-center px-5 md:px-10 relative z-5">
-        <div class="hero-title font-black uppercase pointer-events-none">
-            <div id="layer-1">SHAZA</div>
-            <div id="layer-2" class="italic text-transparent" style="-webkit-text-stroke: 1px white;">MOHAMED.</div>
-        </div>
+    <div class="hero-title font-black uppercase pointer-events-none">
+        <div id="layer-1">SHAZA</div>
+        <div id="layer-2" class="italic text-transparent">MOHAMED.</div>
+    </div>
         <p class="mt-10 max-w-xl text-lg text-zinc-500 font-light leading-relaxed">
             Bridging the gap between <span class="text-white">Ancient Wisdom</span> and <span class="text-white">Digital Frontiers</span>.
         </p>
