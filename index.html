@@ -850,7 +850,43 @@ function closeAll() {
         };
         item.addEventListener('mousemove', moveHandler);
         item.addEventListener('mouseleave', leaveHandler);
+    let isCareerUnlocked = false;
+
+document.addEventListener('keydown', (e) => {
+    // 1. Check if the "@" key is pressed
+    if (e.key === '@') {
+        // Prevent default browser behavior if needed
+        e.preventDefault();
+
+        // 2. Only trigger if the career page is actually open and locked
+        const lockScreen = document.getElementById('career-lock-container');
+        
+        if (lockScreen && !isCareerUnlocked) {
+            const pass = prompt("ENCRYPTED ACCESS REQUIRED. ENTER KEYCODE:");
+            
+            if (pass === 'genes') {
+                unlockCareer();
+            } else {
+                alert("ACCESS DENIED: INCORRECT CREDENTIALS");
+            }
+        }
     }
+});
+
+function unlockCareer() {
+    isCareerUnlocked = true;
+    const lockScreen = document.getElementById('career-lock-container');
+    const actualContent = document.getElementById('career-actual-content');
+
+    if (lockScreen && actualContent) {
+        // Transition effect
+        gsap.to(lockScreen, { opacity: 0, duration: 0.5, onComplete: () => {
+            lockScreen.style.display = 'none';
+            actualContent.style.display = 'block';
+            gsap.from(actualContent, { opacity: 0, y: 20, duration: 1 });
+        }});
+    }
+}
 </script>
 </body>
 </html>
