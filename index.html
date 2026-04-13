@@ -141,6 +141,18 @@
     pointer-events: none;
     opacity: 0.3;
 }
+         .blocked-screen {
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 1px dashed rgba(255, 0, 0, 0.3);
+    background: rgba(255, 0, 0, 0.02);
+}
+.blink-red { animation: blink 2s infinite; color: #ff4444; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
 </style>
 </head>
