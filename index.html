@@ -673,8 +673,7 @@
         `
     };
 
-    // --- 4. THE BIOMIMETIC PARTICLE SYSTEM ---
-    const canvas = document.getElementById('canvas');
+   const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
     let mouse = { x: -100, y: -100 };
@@ -850,7 +849,8 @@ function closeAll() {
         };
         item.addEventListener('mousemove', moveHandler);
         item.addEventListener('mouseleave', leaveHandler);
-    let isCareerUnlocked = false;
+    }
+        let isCareerUnlocked = false;
 
 document.addEventListener('keydown', (e) => {
     // 1. Check if the "@" key is pressed
