@@ -198,12 +198,14 @@
     </div>
 </div>
     </main>
-     <header class="h-screen flex flex-col justify-center items-center text-center relative overflow-hidden">
+          <header class="h-screen flex flex-col justify-center items-center text-center relative overflow-hidden">
             <div class="hero-bg-road"></div>
 
+            <!-- Ensure these audio tags have the correct IDs -->
             <audio id="track1" preload="auto"><source src="wya.m4a" type="audio/mp4"></audio>
             <audio id="track2" loop preload="auto"><source src="tbg.m4a" type="audio/mp4"></audio>
 
+            <!-- This div should trigger the toggleMusic function -->
             <div onclick="toggleMusic()" class="absolute bottom-12 right-12 z-[100] cursor-pointer group">
                 <div class="flex items-center gap-4 border border-white/10 px-6 py-3 rounded-full hover:bg-white/10 transition">
                     <div id="status-dot" class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></div>
@@ -262,39 +264,40 @@
         delay: 0.6 
     });
 }
-       function toggleMusic() {
-    const track = document.getElementById('track2');
+             function toggleMusic() {
+    const track = document.getElementById('track2'); // Correctly targets the background music
     const statusDot = document.getElementById('status-dot');
     const musicText = document.getElementById('musicText');
-    const targetVolume = 0.4; 
+    const targetVolume = 0.4; // Set this to your preferred "not too loud" max (0.0 to 1.0)
 
     if (track.paused) {
         track.volume = 0; // Reset to 0 for a fresh fade-in
-        track.play();
+        track.play().catch(e => console.log("Audio playback failed:", e)); // Added error handling
         
         let fadeIn = setInterval(() => {
             if (track.volume < targetVolume) {
+                // Increase volume by 0.01 every step
                 track.volume = Math.min(targetVolume, track.volume + 0.01);
             } else {
-                clearInterval(fadeIn);
+                clearInterval(fadeIn); // Stop when we hit the target
             }
-        }, 30);
+        }, 30); // Adjust interval for fade speed
 
         musicText.innerText = "Atmosphere On";
-        statusDot.className = "w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse";
+        statusDot.className = "w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"; // Green dot for 'On'
     } else {
         // Optional: Fade out before pausing
         let fadeOut = setInterval(() => {
-            if (track.volume > 0.01) {
-                track.volume -= 0.02;
+            if (track.volume > 0.01) { // Check if volume is still significant
+                track.volume -= 0.02; // Decrease volume
             } else {
-                track.pause();
-                clearInterval(fadeOut);
+                track.pause(); // Pause the audio
+                clearInterval(fadeOut); // Stop the fade interval
             }
-        }, 20);
+        }, 20); // Adjust interval for fade speed
 
         musicText.innerText = "Atmosphere Off";
-        statusDot.className = "w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse";
+        statusDot.className = "w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"; // Red dot for 'Off'
     }
 }
 
