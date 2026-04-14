@@ -198,7 +198,7 @@
     </div>
 </div>
     </main>
-                   <header class="h-screen flex flex-col justify-center items-center text-center relative overflow-hidden">
+                                    <header class="h-screen flex flex-col justify-center items-center text-center relative overflow-hidden">
             <div class="hero-bg-road"></div>
 
             <!-- Ensure these audio tags have the correct IDs -->
@@ -264,15 +264,17 @@
         delay: 0.6 
     });
 }
-             function toggleMusic() {
-    const track = document.getElementById('track2'); // Correctly targets the background music
+                          function toggleMusic() {
+    // Correctly targets the background music audio element
+    const track = document.getElementById('track2'); 
     const statusDot = document.getElementById('status-dot');
     const musicText = document.getElementById('musicText');
     const targetVolume = 0.4; // Set this to your preferred "not too loud" max (0.0 to 1.0)
 
     if (track.paused) {
         track.volume = 0; // Reset to 0 for a fresh fade-in
-        track.play().catch(e => console.log("Audio playback failed:", e)); // Added error handling
+        // Attempt to play and catch potential errors (e.g., autoplay policies)
+        track.play().catch(e => console.log("Audio playback failed:", e)); 
         
         let fadeIn = setInterval(() => {
             if (track.volume < targetVolume) {
