@@ -398,49 +398,9 @@
                 <h3 id="active-surah-name" class="text-4xl font-bold italic">SURAH NAME</h3>
                 <button onclick="closeSurah()" class="text-[10px] tracking-[5px] border border-white/20 px-6 py-2 rounded-full hover:bg-white hover:text-black">BACK TO GRID</button>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="glass-panel border-cyan-500/30">
-                    <h4 class="text-cyan-400 mb-4 uppercase tracking-widest text-xs">Recitation Feed</h4>
-                    <div class="aspect-video bg-zinc-900 rounded-2xl flex items-center justify-center">
-                         <span class="opacity-30 text-[10px]">VIDEO_PLAYER_01</span>
-                    </div>
-                </div>
-                <div class="glass-panel border-indigo-500/30">
-                    <h4 class="text-indigo-400 mb-4 uppercase tracking-widest text-xs">Contemplation Feed</h4>
-                    <div class="aspect-video bg-zinc-900 rounded-2xl flex items-center justify-center">
-                         <span class="opacity-30 text-[10px]">VIDEO_PLAYER_02</span>
-                    </div>
-                </div>
-                <!-- Surah Al Mulk - The Kingdom -->
-                <div class="glass-panel border-purple-500/30" id="surah-67-video-container" style="display: none;">
-                    <h4 class="text-purple-400 mb-4 uppercase tracking-widest text-xs">Surah 67 Reflection</h4>
-                    <div class="aspect-video bg-zinc-900 rounded-2xl">
-                        <iframe 
-    width="100%" 
-    height="100%" 
-    src="https://www.youtube.com/watch?v=THJmN1rQu2Y" 
-    title="Surah 67 Reflection" 
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-    allowfullscreen>
-</iframe>
-                    </div>
-                    </div>
-                <!-- Surah Al Mulk - The Kingdom -->
-                <div class="glass-panel border-purple-500/30" id="surah-67-video-container" style="display: none;">
-                    <h4 class="text-purple-400 mb-4 uppercase tracking-widest text-xs">Surah 67 Reflection</h4>
-                    <div class="aspect-video bg-zinc-900 rounded-2xl">
-                        <iframe 
-    width="100%" 
-    height="100%" 
-    src="https://youtu.be/jCCxVRU89Dk" 
-    title="Surah 67 Recitation" 
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-    allowfullscreen>
-</iframe>
-                    </div>
-                </div>
+            <!-- THIS IS THE IMPORTANT PART: THE VIDEO GRID CONTAINER -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="surah-video-grid"> 
+                <!-- Videos will be loaded here dynamically -->
             </div>
         </div>
     </div>
@@ -764,21 +724,21 @@
     }
         // Function to populate the grid
 function initQuranGrid() {
-    const grid = document.getElementById('quran-grid');
-    if(!grid) return;
-    
-    let html = '';
-    for(let i = 1; i <= 114; i++) {
-        html += `
-            <div class="surah-hex" onclick="openSurah(${i})">
-                <span class="hex-num">${i}</span>
-                <span class="hex-title">SURAH</span>
-            </div>
-        `;
+        const grid = document.getElementById('quran-grid');
+        if (!grid) return;
+        
+        let html = '';
+        for (let i = 1; i <= 114; i++) {
+            html += `
+                <div class="surah-hex" onclick="openSurah(${i})">
+                    <span class="hex-num">${i}</span>
+                    <span class="hex-title">SURAH</span>
+                </div>
+            `;
+        }
+        grid.innerHTML = html;
     }
-    grid.innerHTML = html;
-}
-         const surahVideosData = {
+        const surahVideosData = {
         1: [ // Surah Al-Fatihah
             { url: "https://www.youtube.com/watch?v=example_url_for_fatihah_recitation", title: "Surah 1 Recitation", type: "recitation" },
             { url: "https://www.youtube.com/watch?v=example_url_for_fatihah_contemplation", title: "Surah 1 Contemplation", type: "contemplation" }
@@ -797,13 +757,15 @@ function initQuranGrid() {
     };
         function openSurah(id) {
         const overlay = document.getElementById('surah-overlay');
-        const videoGrid = document.getElementById('surah-video-grid'); // Get the video grid container
+        // CORRECTED: Target the specific video grid container
+        const videoGrid = document.getElementById('surah-video-grid'); 
 
         document.getElementById('active-surah-name').innerText = "SURAH " + id;
 
         // Clear any previously loaded videos
         videoGrid.innerHTML = '';
 
+        // Get videos for the current Surah ID from our data
         // Get videos for the current Surah ID from our data
         const videos = surahVideosData[id];
 
@@ -845,7 +807,6 @@ function initQuranGrid() {
         gsap.to(overlay, { opacity: 1, duration: 0.5 });
     }
 
-
 function closeSurah() {
         const overlay = document.getElementById('surah-overlay');
         gsap.to(overlay, { opacity: 0, duration: 0.3, onComplete: () => {
@@ -856,10 +817,11 @@ function closeSurah() {
     }
 
 // Call initQuranGrid whenever the Quran page is opened
- const originalOpenPage = openPage;
+ // --- Ensure initQuranGrid is called when the Quran page is opened ---
+    const originalOpenPage = openPage;
     openPage = function(id) {
         originalOpenPage(id);
-        if(id === 'quran') {
+        if (id === 'quran') {
             // Use a slight delay to ensure the DOM is ready after the page content is loaded
             setTimeout(initQuranGrid, 100); 
         }
