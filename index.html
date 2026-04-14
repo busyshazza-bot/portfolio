@@ -151,22 +151,24 @@
     border: 1px dashed rgba(255, 0, 0, 0.3);
     background: rgba(255, 0, 0, 0.02);
 }
-.blink-red { animation: blink 2s infinite; color: #ff4444; }
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
              /* --- NEW CSS FOR RUNWAY TEXT ANIMATION --- */
-    @keyframes runway-scroll {
+      /* --- NEW CSS FOR VERTICAL RUNWAY TEXT ANIMATION --- */
+    @keyframes vertical-runway-scroll {
         0% {
-            transform: translateX(100%); /* Start completely off-screen to the right */
+            transform: translateY(100%) rotate(90deg); /* Start completely off-screen below, rotated */
         }
         100% {
-            transform: translateX(-100%); /* End completely off-screen to the left */
+            transform: translateY(-100%) rotate(90deg); /* End completely off-screen above, rotated */
         }
     }
 
-    .runway-text {
-        animation: runway-scroll 15s linear infinite; /* Adjust duration (15s) for speed */
+    .vertical-runway-text {
+        animation: vertical-runway-scroll 15s linear infinite; /* Adjust duration (15s) for speed */
         display: inline-block; /* Needed for transform to apply */
+        transform-origin: right top; /* Ensures rotation happens correctly */
     }
+         .blink-red { animation: blink 2s infinite; color: #ff4444; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
     /* --- END NEW CSS --- */
 
 </style>
@@ -529,10 +531,8 @@
                 </div>
             </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    
-                                        <div class="absolute right-0 top-0 h-full w-32 opacity-10 pointer-events-none overflow-hidden">
-                        <div class="text-[8px] font-mono text-cyan-400 whitespace-nowrap runway-text">
+                                                      <div class="absolute right-0 top-0 h-full w-32 opacity-10 pointer-events-none overflow-hidden">
+                        <div class="text-[8px] font-mono text-cyan-400 rotate-90 whitespace-nowrap vertical-runway-text">
                             ATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGC
                         </div>
                     </div>
