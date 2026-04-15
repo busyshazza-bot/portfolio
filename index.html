@@ -204,14 +204,24 @@
         <div id="clock" class="text-[9px] tracking-[5px] uppercase opacity-50">00:00:00</div>
     </nav>
 
-    <main id="hero-container" class="min-h-screen flex flex-col justify-center px-5 md:px-10 relative z-5">
-        <div class="hero-title font-black uppercase pointer-events-none">
-            <div id="layer-1">SHAZA</div>
-            <div id="layer-2" class="italic text-transparent" style="-webkit-text-stroke: 1px white;">MOHAMED.</div>
+    <main id="hero-container" class="min-h-screen flex flex-col justify-center px-5 md:px-10 relative z-5 opacity-0 invisible">
+    <audio id="track1" preload="auto"><source src="wya.m4a" type="audio/mp4"></audio>
+    <audio id="track2" loop preload="auto"><source src="tbg.m4a" type="audio/mp4"></audio>
+
+    <div class="hero-title font-black uppercase pointer-events-none">
+        <div id="layer-1">SHAZA</div>
+        <div id="layer-2" class="italic text-transparent" style="-webkit-text-stroke: 1px white;">MOHAMED.</div>
+    </div>
+    <p class="mt-10 max-w-xl text-lg text-zinc-500 font-light leading-relaxed">
+        Bridging the gap between <span class="text-white">Ancient Wisdom</span> and <span class="text-white">Digital Frontiers</span>.
+    </p>
+    
+    <div onclick="toggleMusic()" class="fixed bottom-12 right-12 z-[100] cursor-pointer group">
+        <div class="flex items-center gap-4 border border-white/10 px-6 py-3 rounded-full hover:bg-white/10 transition backdrop-blur-md">
+            <div id="status-dot" class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></div>
+            <span id="musicText" class="text-[8px] tracking-[0.4em] uppercase opacity-50">Atmosphere Off</span>
         </div>
-        <p class="mt-10 max-w-xl text-lg text-zinc-500 font-light leading-relaxed">
-            Bridging the gap between <span class="text-white">Ancient Wisdom</span> and <span class="text-white">Digital Frontiers</span>.
-        </p>
+    </div>
         
        <div class="marquee mt-20">
     <div class="marquee-content">
