@@ -213,19 +213,19 @@
     </div>
 </div>
     </main>
-                                                     <header class="h-screen flex flex-col justify-center items-center text-center relative overflow-hidden">
-            <div class="hero-bg-road"></div>
+  <header id="hero-container" class="h-screen flex flex-col justify-center items-center text-center relative overflow-hidden">
+    <div class="hero-bg-road"></div>
 
-            <audio id="track1" preload="auto"><source src="wya.m4a" type="audio/mp4"></audio>
-            <audio id="track2" loop preload="auto"><source src="tbg.m4a" type="audio/mp4"></audio>
+    <audio id="track1" preload="auto"><source src="wya.m4a" type="audio/mp4"></audio>
+    <audio id="track2" loop preload="auto"><source src="tbg.m4a" type="audio/mp4"></audio>
 
-            <div onclick="toggleMusic()" class="absolute bottom-12 right-12 z-[100] cursor-pointer group">
-                <div class="flex items-center gap-4 border border-white/10 px-6 py-3 rounded-full hover:bg-white/10 transition">
-                    <div id="status-dot" class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></div>
-                    <span id="musicText" class="text-[8px] tracking-[0.4em] uppercase opacity-50">Atmosphere Off</span>
-                </div>
-            </div>
-        </header>
+    <div onclick="toggleMusic()" class="absolute bottom-12 right-12 z-[100] cursor-pointer group">
+        <div class="flex items-center gap-4 border border-white/10 px-6 py-3 rounded-full hover:bg-white/10 transition">
+            <div id="status-dot" class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></div>
+            <span id="musicText" class="text-[8px] tracking-[0.4em] uppercase opacity-50">Atmosphere Off</span>
+        </div>
+    </div>
+</header>
     <div id="page-display" class="page-layer">
         <div class="text-right text-[10px] tracking-[5px] mb-20 cursor-pointer" onclick="closeAll()">[ ESC ]</div>
         <div id="dynamic-content"></div>
@@ -240,76 +240,93 @@
 </div>
 
     <script>
-        function enterSite() {
-    const track = document.getElementById('track2');
-    
-    // Set initial state
-    track.volume = 0; 
-    track.play().catch(e => console.log("Playback blocked:", e));
+       function enterSite() {
+    const intro = document.getElementById('track1');
+    const bgMusic = document.getElementById('track2');
 
-    // FADE IN LOGIC
-    let targetVolume = 0.4; // Set this to your preferred "not too loud" max (0.0 to 1.0)
-    let fadeIn = setInterval(() => {
-        if (track.volume < targetVolume) {
-            // Increase volume by 0.01 every step
-            track.volume = Math.min(targetVolume, track.volume + 0.01);
-        } else {
-            clearInterval(fadeIn); // Stop when we hit the target
-        }
-    }, 50); // 50ms intervals = smooth 2-second fade
+    // 1. Play the intro track first
+    intro.play().catch(e => console.log("Intro blocked:", e));
+
+    // 2. Listen for the moment the intro finishes
+    intro.onended = function() {
+        startBackgroundMusic(bgMusic);
+    };
 
     // --- Visual Animations ---
-    gsap.to("#entrance", { 
-        y: "-100%", 
-        duration: 1.5, 
-        ease: "expo.inOut" 
-    });
-
+    gsap.to("#entrance", { y: "-100%", duration: 1.5, ease: "expo.inOut" });
     gsap.set("#hero-container", { opacity: 1, visibility: "visible" });
-
-    gsap.from("#hero-container > *", { 
-        y: 80, 
-        opacity: 0, 
-        stagger: 0.2, 
-        duration: 1.2, 
-        ease: "power4.out",
-        delay: 0.6 
-    });
+    // ... rest of your GSAP code
 }
-                                      function toggleMusic() {
-    const track = document.getElementById('track2'); // Correctly targets the background music
+
+// Helper function to handle the fade-in of the second track
+function startBackgroundMusic(track) {
+    const targetVolume = 0.4;
     const statusDot = document.getElementById('status-dot');
     const musicText = document.getElementById('musicText');
-    const targetVolume = 0.4; // Set this to your preferred "not too loud" max (0.0 to 1.0)
 
-    if (track.paused) {
-        track.volume = 0; // Reset to 0 for a fresh fade-in
-        track.play().catch(e => console.log("Audio playback failed:", e)); // Added error handling
+    track.volume = 0;
+    track.play();
+
+    let fadeIn = setInterval(() => {
+        if (track.volume < targetVolume) {
+            track.volume = Math.min(targetVolume, track.volume + 0.01);
+        } else {
+            clearInterval(fadeIn);
+        }
+    }, 50);
+
+    // Update the UI to show the atmosphere is now active
+    musicText.innerText = "Atmosphere On";
+    statusDot.className = "w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse";
+}
+                                  function toggleMusic() {
+    // 1. Get all your elements first
+    const track1 = document.getElementById('track1');
+    const track2 = document.getElementById('track2'); // This is the 'Atmosphere' track
+    const statusDot = document.getElementById('status-dot');
+    const musicText = document.getElementById('musicText');
+    const targetVolume = 0.4;
+
+    // 2. Safety: If the intro (track1) is playing, stop it immediately
+    if (!track1.paused) {
+        track1.pause();
+        track1.currentTime = 0; // Reset it to the start
+    }
+
+    // 3. Logic for the Atmosphere (track2)
+    if (track2.paused) {
+        // --- TURN ON ---
+        track2.volume = 0; 
+        track2.play().catch(e => console.log("Playback failed:", e));
         
-        let fadeIn = setInterval(() => {
-            if (track.volume < targetVolume) {
-                // Increase volume by 0.01 every step
-                track.volume = Math.min(targetVolume, track.volume + 0.01);
+        // Clear any existing fades to prevent overlapping
+        if (window.fadeEffect) clearInterval(window.fadeEffect);
+
+        window.fadeEffect = setInterval(() => {
+            if (track2.volume < targetVolume) {
+                track2.volume = Math.min(targetVolume, track2.volume + 0.01);
             } else {
-                clearInterval(fadeIn); // Stop when we hit the target
+                clearInterval(window.fadeEffect);
             }
-        }, 30); // Adjust interval for fade speed
+        }, 30);
 
         musicText.innerText = "Atmosphere On";
-        statusDot.className = "w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"; // Green dot for 'On'
+        statusDot.className = "w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse";
     } else {
-        // Optional: Fade out before pausing
-        let fadeOut = setInterval(() => {
-            if (track.volume > 0.01) { // Check if volume is still significant
-                track.volume -= 0.02; // Decrease volume
+        // --- TURN OFF ---
+        if (window.fadeEffect) clearInterval(window.fadeEffect);
+
+        window.fadeEffect = setInterval(() => {
+            if (track2.volume > 0.02) {
+                track2.volume -= 0.02;
             } else {
-                track.pause(); // Pause the audio
-                clearInterval(fadeOut); // Stop the fade interval
+                track2.pause();
+                clearInterval(window.fadeEffect);
             }
-        }, 20); // Adjust interval for fade speed
+        }, 20);
 
         musicText.innerText = "Atmosphere Off";
-        statusDot.className = "w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"; // Red dot for 'Off'
+        statusDot.className = "w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse";
     }
 }
 
