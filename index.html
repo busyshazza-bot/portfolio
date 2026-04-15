@@ -186,6 +186,28 @@
     backdrop-filter: blur(10px);
     box-shadow: inset 0 0 20px rgba(6, 182, 212, 0.05);
 }
+         /* Ensure the entrance is actually on top and clickable */
+#entrance {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #000;
+    pointer-events: all; /* CRITICAL: Must be 'all' to click the button */
+}
+
+/* Ensure the hero container starts hidden for GSAP to fade in */
+#hero-container {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Fix the Canvas so it doesn't eat your clicks */
+#canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none; /* Allows you to click 'through' the particles */
+}
     /* --- END NEW CSS --- */
 
 </style>
@@ -269,44 +291,42 @@
 </div>
 
     <script>
-       function enterSite() {
+    function enterSite() {
     const intro = document.getElementById('track1');
     const bgMusic = document.getElementById('track2');
+    const entrance = document.getElementById('entrance');
+    const hero = document.getElementById('hero-container');
 
-    // 1. Play the intro track first
-    intro.play().catch(e => console.log("Intro blocked:", e));
+    // 1. Audio Logic
+    if (intro) {
+        intro.play().catch(e => console.warn("Audio play blocked by browser. Click again."));
+        
+        intro.onended = () => {
+            if (bgMusic) startBackgroundMusic(bgMusic);
+        };
+    }
 
-    // 2. Listen for the moment the intro finishes
-    intro.onended = function() {
-        startBackgroundMusic(bgMusic);
-    };
+    // 2. Visual Transitions
+    if (entrance) {
+        gsap.to(entrance, { 
+            y: "-100%", 
+            duration: 1.5, 
+            ease: "expo.inOut",
+            onComplete: () => {
+                entrance.style.display = 'none';
+            }
+        });
+    }
 
-    // --- Visual Animations ---
-    gsap.to("#entrance", { y: "-100%", duration: 1.5, ease: "expo.inOut" });
-    gsap.set("#hero-container", { opacity: 1, visibility: "visible" });
-    // ... rest of your GSAP code
-}
-
-// Helper function to handle the fade-in of the second track
-function startBackgroundMusic(track) {
-    const targetVolume = 0.4;
-    const statusDot = document.getElementById('status-dot');
-    const musicText = document.getElementById('musicText');
-
-    track.volume = 0;
-    track.play();
-
-    let fadeIn = setInterval(() => {
-        if (track.volume < targetVolume) {
-            track.volume = Math.min(targetVolume, track.volume + 0.01);
-        } else {
-            clearInterval(fadeIn);
-        }
-    }, 50);
-
-    // Update the UI to show the atmosphere is now active
-    musicText.innerText = "Atmosphere On";
-    statusDot.className = "w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse";
+    if (hero) {
+        // We use autoAlpha to handle BOTH opacity and visibility:visible
+        gsap.to(hero, { 
+            autoAlpha: 1, 
+            duration: 1.2, 
+            delay: 0.5,
+            ease: "power2.out"
+        });
+    }
 }
                                   function toggleMusic() {
     // 1. Get all your elements first
@@ -630,6 +650,7 @@ function startBackgroundMusic(track) {
 
     </div>
 </div>
+`,
         bio: `
             <div class="max-w-6xl mx-auto pb-32">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24 items-center">
