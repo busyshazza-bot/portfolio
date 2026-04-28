@@ -1111,22 +1111,7 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
-
-function unlockCareer() {
-    isCareerUnlocked = true;
-    const lockScreen = document.getElementById('career-lock-container');
-    const actualContent = document.getElementById('career-actual-content');
-
-    if (lockScreen && actualContent) {
-        // Transition effect
-        gsap.to(lockScreen, { opacity: 0, duration: 0.5, onComplete: () => {
-            lockScreen.style.display = 'none';
-            actualContent.style.display = 'block';
-            gsap.from(actualContent, { opacity: 0, y: 20, duration: 1 });
-        }});
-    }
-}
-        // Image Slideshow for Sartorial Ethics
+            // Image Slideshow for Sartorial Ethics
 setInterval(() => {
     const images = document.querySelectorAll('.slideshow-img');
     if (images.length === 0) return;
@@ -1144,6 +1129,22 @@ setInterval(() => {
     const nextIndex = (currentIndex + 1) % images.length;
     images[nextIndex].classList.remove('hidden');
 }, 3000); // Changes image every 3 seconds — change this number if you want faster/slower rotation
+
+function unlockCareer() {
+    isCareerUnlocked = true;
+    const lockScreen = document.getElementById('career-lock-container');
+    const actualContent = document.getElementById('career-actual-content');
+
+    if (lockScreen && actualContent) {
+        // Transition effect
+        gsap.to(lockScreen, { opacity: 0, duration: 0.5, onComplete: () => {
+            lockScreen.style.display = 'none';
+            actualContent.style.display = 'block';
+            gsap.from(actualContent, { opacity: 0, y: 20, duration: 1 });
+        }});
+    }
+}
+    
         
 </script>
 </body>
