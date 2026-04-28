@@ -399,71 +399,164 @@
     // --- 3. DYNAMIC CONTENT (FUTURE ARCHIVE) ---
     const content = {
        portfolio: `
-            <div class="max-w-7xl mx-auto pb-32">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-                    <div>
-                        <span class="text-indigo-400 font-mono tracking-[10px] uppercase block mb-4 animate-pulse">Aesthetic Discipline</span>
-                        <h2 class="text-7xl font-black tracking-tighter uppercase italic leading-[0.9]">Visual <br><span class="text-transparent" style="-webkit-text-stroke: 1px var(--accent-gold);">Archive.</span></h2>
-                    </div>
-                    <p class="text-zinc-400 max-w-md text-[11px] uppercase tracking-widest leading-relaxed border-l border-white/10 pl-6">
-                        Neural data recovery complete. displaying captured memories in chronological sequence.
-                    </p>
+    <div class="max-w-7xl mx-auto pb-32">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+            <div>
+                <span class="text-indigo-400 font-mono tracking-[10px] uppercase block mb-4 animate-pulse">Aesthetic Discipline</span>
+                <h2 class="text-7xl font-black tracking-tighter uppercase italic leading-[0.9]">Visual <br><span class="text-transparent" style="-webkit-text-stroke: 1px var(--accent-gold);">Archive.</span></h2>
+            </div>
+            <p class="text-zinc-400 max-w-md text-[11px] uppercase tracking-widest leading-relaxed border-l border-white/10 pl-6">
+                Neural data recovery complete. displaying captured memories in chronological sequence.
+            </p>
+        </div>
+
+        <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+            
+            <!-- SARTORIAL ETHICS CARD WITH IMAGE SLIDESHOW -->
+            <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700 hover:border-[#c5a059]/50">
+                <!-- Slideshow Images -->
+                <div class="slideshow-container relative w-full h-full">
+                    <!-- Add/remove your images here -->
+                    <img src="countryside.jpg" class="slideshow-img w-full grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0">
+                    <img src="brownthobe.jpeg" class="slideshow-img w-full grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0 hidden">
+                    <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?q=80&w=1000&auto=format&fit=crop" class="slideshow-img w-full grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0 hidden">
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000&auto=format&fit=crop" class="slideshow-img w-full grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0 hidden">
                 </div>
 
-                <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-                    
-                    <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700 hover:border-[#c5a059]/50">
-                        <img src="countryside.jpg" class="w-full grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
-                        <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                            <span class="text-[9px] text-[#c5a059] tracking-[4px] uppercase opacity-50">Ref_001</span>
-                            <h4 class="text-xl font-bold uppercase tracking-tight text-white mt-1">Sartorial Ethics</h4>
-                            <div class="h-[1px] w-0 group-hover:w-full bg-[#c5a059]/50 transition-all duration-700 mt-4"></div>
-                        </div>
-                    </div>
-
-                    <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700">
-                        <img src="brownthobe.jpeg" class="w-full aspect-square object-cover grayscale group-hover:grayscale-0 transition-all duration-1000">
-                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
-                        <div class="absolute top-4 right-4">
-                            <div class="w-2 h-2 bg-[#c5a059] rounded-full animate-ping"></div>
-                        </div>
-                        <div class="absolute bottom-0 left-0 p-8">
-                            <h4 class="text-xl font-bold uppercase italic text-white tracking-tighter">Modernity</h4>
-                        </div>
-                    </div>
-
-                    <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700">
-                        <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?q=80&w=1000&auto=format&fit=crop" class="w-full grayscale group-hover:grayscale-0 transition-all duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-tr from-black/90 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-8">
-                             <span class="text-[9px] text-[#c5a059] tracking-[4px] uppercase">Ref_003</span>
-                            <h4 class="text-xl font-bold uppercase text-white mt-1">Ancestral Poise</h4>
-                        </div>
-                    </div>
-
-                    <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700">
-                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000&auto=format&fit=crop" class="w-full aspect-video object-cover opacity-50 group-hover:opacity-100 transition-opacity duration-1000">
-                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div class="px-6 py-2 border border-white/20 backdrop-blur-md text-[10px] tracking-[5px] uppercase">View Data</div>
-                        </div>
-                    </div>
-
-                    <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700">
-                        <img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=1000&auto=format&fit=crop" class="w-full grayscale group-hover:grayscale-0 transition-all duration-1000">
-                        <div class="absolute bottom-8 left-8">
-                            <h4 class="text-3xl font-black uppercase text-white leading-none">Global<br>Reach</h4>
-                        </div>
-                    </div>
-
-                    <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700">
-                        <img src="https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?q=80&w=1000&auto=format&fit=crop" class="w-full grayscale group-hover:grayscale-0 transition-all duration-1000">
-                        <div class="absolute inset-0 border-[20px] border-black/0 group-hover:border-black/20 transition-all duration-500"></div>
-                    </div>
-
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 z-10">
+                    <span class="text-[9px] text-[#c5a059] tracking-[4px] uppercase opacity-50">Ref_001</span>
+                    <h4 class="text-xl font-bold uppercase tracking-tight text-white mt-1">Sartorial Ethics</h4>
+                    <div class="h-[1px] w-0 group-hover:w-full bg-[#c5a059]/50 transition-all duration-700 mt-4"></div>
                 </div>
             </div>
-        `,
+
+            <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700">
+                <img src="brownthobe.jpeg" class="w-full aspect-square object-cover grayscale group-hover:grayscale-0 transition-all duration-1000">
+                <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
+                <div class="absolute top-4 right-4">
+                    <div class="w-2 h-2 bg-[#c5a059] rounded-full animate-ping"></div>
+                </div>
+                <div class="absolute bottom-0 left-0 p-8">
+                    <h4 class="text-xl font-bold uppercase italic text-white tracking-tighter">Modernity</h4>
+                </div>
+            </div>
+
+            <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700">
+                <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?q=80&w=1000&auto=format&fit=crop" class="w-full grayscale group-hover:grayscale-0 transition-all duration-700">
+                <div class="absolute inset-0 bg-gradient-to-tr from-black/90 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-8">
+                     <span class="text-[9px] text-[#c5a059] tracking-[4px] uppercase">Ref_003</span>
+                    <h4 class="text-xl font-bold uppercase text-white mt-1">Ancestral Poise</h4>
+                </div>
+            </div>
+
+            <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000&auto=format&fit=crop" class="w-full aspect-video object-cover opacity-50 group-hover:opacity-100 transition-opacity duration-1000">
+                <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div class="px-6 py-2 border border-white/20 backdrop-blur-md text-[10px] tracking-[5px] uppercase">View Data</div>
+                </div>
+            </div>
+
+            <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700">
+                <img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=1000&auto=format&fit=crop" class="w-full grayscale group-hover:grayscale-0 transition-all duration-1000">
+                <div class="absolute bottom-8 left-8">
+                    <h4 class="text-3xl font-black uppercase text-white leading-none">Global<br>Reach</h4>
+                </div>
+            </div>
+
+            <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700">
+                <img src="https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?q=80&w=1000&auto=format&fit=crop" class="w-full grayscale group-hover:grayscale-0 transition-all duration-1000">
+                <div class="absolute inset-0 border-[20px] border-black/0 group-hover:border-black/20 transition-all duration-500"></div>
+            </div>
+
+        </div>
+
+        <!-- NEW PORTFOLIO VIDEO SECTION -->
+        <div class="mt-32">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-8">
+                <div>
+                    <span class="text-indigo-400 font-mono tracking-[10px] uppercase block mb-4 animate-pulse">Visual Reels</span>
+                    <h2 class="text-5xl font-black tracking-tighter uppercase italic leading-[0.9]">Featured <br><span class="text-transparent" style="-webkit-text-stroke: 1px var(--accent-gold);">Moments.</span></h2>
+                </div>
+                <p class="text-zinc-400 max-w-md text-[11px] uppercase tracking-widest leading-relaxed border-l border-white/10 pl-6">
+                    Curated video highlights showcasing style, presence and creative direction.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Video 1 -->
+                <div class="glass-panel group relative overflow-hidden p-0 break-inside-avoid border border-white/5 transition-all duration-700 hover:border-[#c5a059]/50">
+                    <div class="aspect-[9/16] w-full overflow-hidden">
+                        <video 
+                            src="your-video-1.mp4" 
+                            class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-60 group-hover:opacity-100"
+                            muted 
+                            loop 
+                            playsinline
+                            onmouseover="this.play()" 
+                            onmouseout="this.pause()"
+                        >
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <span class="text-[9px] text-[#c5a059] tracking-[4px] uppercase opacity-50">Ref_Video_01</span>
+                        <h4 class="text-lg font-bold uppercase tracking-tight text-white mt-1">Creative Direction</h4>
+                        <div class="h-[1px] w-0 group-hover:w-full bg-[#c5a059]/50 transition-all duration-700 mt-3"></div>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="glass-panel group relative overflow-hidden p-0 break-inside-avoid border border-white/5 transition-all duration-700 hover:border-[#c5a059]/50">
+                    <div class="aspect-[9/16] w-full overflow-hidden">
+                        <video 
+                            src="your-video-2.mp4" 
+                            class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-60 group-hover:opacity-100"
+                            muted 
+                            loop 
+                            playsinline
+                            onmouseover="this.play()" 
+                            onmouseout="this.pause()"
+                        >
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <span class="text-[9px] text-[#c5a059] tracking-[4px] uppercase opacity-50">Ref_Video_02</span>
+                        <h4 class="text-lg font-bold uppercase tracking-tight text-white mt-1">Style & Presence</h4>
+                        <div class="h-[1px] w-0 group-hover:w-full bg-[#c5a059]/50 transition-all duration-700 mt-3"></div>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="glass-panel group relative overflow-hidden p-0 break-inside-avoid border border-white/5 transition-all duration-700 hover:border-[#c5a059]/50">
+                    <div class="aspect-[9/16] w-full overflow-hidden">
+                        <video 
+                            src="your-video-3.mp4" 
+                            class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-60 group-hover:opacity-100"
+                            muted 
+                            loop 
+                            playsinline
+                            onmouseover="this.play()" 
+                            onmouseout="this.pause()"
+                        >
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <span class="text-[9px] text-[#c5a059] tracking-[4px] uppercase opacity-50">Ref_Video_03</span>
+                        <h4 class="text-lg font-bold uppercase tracking-tight text-white mt-1">Personal Branding</h4>
+                        <div class="h-[1px] w-0 group-hover:w-full bg-[#c5a059]/50 transition-all duration-700 mt-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+`,
         quran: `
     <div class="text-center mb-10">
         <h2 class="text-5xl font-black italic uppercase tracking-tighter">The 114 Portals</h2>
@@ -1033,6 +1126,25 @@ function unlockCareer() {
         }});
     }
 }
+        // Image Slideshow for Sartorial Ethics
+setInterval(() => {
+    const images = document.querySelectorAll('.slideshow-img');
+    if (images.length === 0) return;
+    
+    // Find the currently visible image
+    let currentIndex = 0;
+    images.forEach((img, index) => {
+        if (!img.classList.contains('hidden')) {
+            currentIndex = index;
+        }
+    });
+    
+    // Hide current, show next
+    images[currentIndex].classList.add('hidden');
+    const nextIndex = (currentIndex + 1) % images.length;
+    images[nextIndex].classList.remove('hidden');
+}, 3000); // Changes image every 3 seconds — change this number if you want faster/slower rotation
+        
 </script>
 </body>
 </html>
