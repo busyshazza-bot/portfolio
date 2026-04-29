@@ -1067,6 +1067,10 @@ function openPage(id) {
         { opacity: 0, y: 50, filter: "blur(10px)" }, 
         { opacity: 1, y: 0, filter: "blur(0px)", duration: 1, delay: 0.5, stagger: 0.1, ease: "power4.out" }
     );
+       if (id === 'portfolio') {
+        // Small delay to make sure images are loaded first
+        setTimeout(startSlideshow, 200); 
+    }
 }
 
 function closeAll() {
@@ -1115,7 +1119,7 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
-      // --- Image Slideshow for Sartorial Ethics ---
+     // --- Image Slideshow for Sartorial Ethics ---
 function startSlideshow() {
     // Clear any existing interval to avoid multiple slideshows running
     if (window.slideshowInterval) clearInterval(window.slideshowInterval);
@@ -1134,7 +1138,7 @@ function startSlideshow() {
         images[currentIndex].classList.add('hidden');
         const nextIndex = (currentIndex + 1) % images.length;
         images[nextIndex].classList.remove('hidden');
-    }, 3000);
+    }, 3000); // Change image every 3 seconds
 }
 
 function unlockCareer() {
