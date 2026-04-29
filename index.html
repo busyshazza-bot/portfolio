@@ -208,6 +208,11 @@
     z-index: 1;
     pointer-events: none; /* Allows you to click 'through' the particles */
 }
+         .slideshow-container {
+    position: relative;
+    width: 100%;
+    height: 400px; /* adjust as needed */
+}
     /* --- END NEW CSS --- */
 
 </style>
@@ -1111,24 +1116,27 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
-            // Image Slideshow for Sartorial Ethics
-setInterval(() => {
-    const images = document.querySelectorAll('.slideshow-img');
-    if (images.length === 0) return;
-    
-    // Find the currently visible image
-    let currentIndex = 0;
-    images.forEach((img, index) => {
-        if (!img.classList.contains('hidden')) {
-            currentIndex = index;
-        }
-    });
-    
-    // Hide current, show next
-    images[currentIndex].classList.add('hidden');
-    const nextIndex = (currentIndex + 1) % images.length;
-    images[nextIndex].classList.remove('hidden');
-}, 3000); // Changes image every 3 seconds — change this number if you want faster/slower rotation
+      // --- Image Slideshow for Sartorial Ethics ---
+function startSlideshow() {
+    // Clear any existing interval to avoid multiple slideshows running
+    if (window.slideshowInterval) clearInterval(window.slideshowInterval);
+
+    window.slideshowInterval = setInterval(() => {
+        const images = document.querySelectorAll('.slideshow-img');
+        if (images.length === 0) return;
+
+        let currentIndex = 0;
+        images.forEach((img, index) => {
+            if (!img.classList.contains('hidden')) {
+                currentIndex = index;
+            }
+        });
+
+        images[currentIndex].classList.add('hidden');
+        const nextIndex = (currentIndex + 1) % images.length;
+        images[nextIndex].classList.remove('hidden');
+    }, 3000);
+}
 
 function unlockCareer() {
     isCareerUnlocked = true;
