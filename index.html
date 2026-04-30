@@ -510,20 +510,28 @@
                 </div>
 
                 <!-- Video 2 -->
-              <div class="glass-panel group relative overflow-hidden p-0 break-inside-avoid border border-white/5 transition-all duration-700 hover:border-[#c5a059]/50">
-    <div class="aspect-[9/16] w-full overflow-hidden">
+            <div class="glass-panel group relative overflow-hidden p-0 break-inside-avoid border border-white/5 transition-all duration-700 hover:border-[#c5a059]/50">
+    <div class="aspect-[9/16] w-full overflow-hidden relative">
         <video 
+            src="dundun1.mp4" 
             class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-60 group-hover:opacity-100"
-            muted 
             loop 
             playsinline
-            onmouseover="this.load(); this.play().catch(e => console.log('Could not play:', e))" 
-            onmouseout="this.pause()"
+            onmouseover="this.load(); this.volume = 1; this.play().catch(err => {
+                console.log('Autoplay blocked — user needs to click first:', err);
+            })" 
+            onmouseout="this.pause(); this.currentTime = 0;"
         >
-            <source src="dundun1.mp4" type="video/mp4">
-            <source src="your-video-1.webm" type="video/webm">
+            <source src="your-video-1.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
+
+        <!-- Optional: Sound icon to show status -->
+        <div class="absolute top-4 right-4 bg-black/40 backdrop-blur-sm p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+            </svg>
+        </div>
     </div>
     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
     <div class="absolute bottom-0 left-0 p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
