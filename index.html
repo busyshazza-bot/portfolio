@@ -448,7 +448,7 @@
        <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700">
                 <img src="countryside.jpg" class="w-full grayscale group-hover:grayscale-0 transition-all duration-1000">
                 <div class="absolute bottom-8 left-8">
-                    <h4 class="text-3xl font-black uppercase text-white leading-none">Global<br>Reach</h4>
+                    <h4 class="text-3xl font-black uppercase text-white leading-none">Ancestral<br>Poise</h4>
                 </div>
             </div>
 
@@ -510,27 +510,28 @@
                 </div>
 
                 <!-- Video 2 -->
-                <div class="glass-panel group relative overflow-hidden p-0 break-inside-avoid border border-white/5 transition-all duration-700 hover:border-[#c5a059]/50">
-                    <div class="aspect-[9/16] w-full overflow-hidden">
-                        <video 
-                            src="dundun1.mp4" 
-                            class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-60 group-hover:opacity-100"
-                            muted 
-                            loop 
-                            playsinline
-                            onmouseover="this.play()" 
-                            onmouseout="this.pause()"
-                        >
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                    <div class="absolute bottom-0 left-0 p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <span class="text-[9px] text-[#c5a059] tracking-[4px] uppercase opacity-50">Ref_Video_02</span>
-                        <h4 class="text-lg font-bold uppercase tracking-tight text-white mt-1">Style & Presence</h4>
-                        <div class="h-[1px] w-0 group-hover:w-full bg-[#c5a059]/50 transition-all duration-700 mt-3"></div>
-                    </div>
-                </div>
+              <div class="glass-panel group relative overflow-hidden p-0 break-inside-avoid border border-white/5 transition-all duration-700 hover:border-[#c5a059]/50">
+    <div class="aspect-[9/16] w-full overflow-hidden">
+        <video 
+            class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-60 group-hover:opacity-100"
+            muted 
+            loop 
+            playsinline
+            onmouseover="this.load(); this.play().catch(e => console.log('Could not play:', e))" 
+            onmouseout="this.pause()"
+        >
+            <source src="dundun1.mp4" type="video/mp4">
+            <source src="your-video-1.webm" type="video/webm">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+        <span class="text-[9px] text-[#c5a059] tracking-[4px] uppercase opacity-50">Ref_Video_01</span>
+        <h4 class="text-lg font-bold uppercase tracking-tight text-white mt-1">Creative Direction</h4>
+        <div class="h-[1px] w-0 group-hover:w-full bg-[#c5a059]/50 transition-all duration-700 mt-3"></div>
+    </div>
+</div>
 
                 <!-- Video 3 -->
                 <div class="glass-panel group relative overflow-hidden p-0 break-inside-avoid border border-white/5 transition-all duration-700 hover:border-[#c5a059]/50">
