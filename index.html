@@ -242,8 +242,8 @@
     </nav>
 
     <main id="hero-container" class="min-h-screen flex flex-col justify-center px-5 md:px-10 relative z-5 opacity-0 invisible">
-    <audio id="track1" preload="auto"><source src="wya.m4a" type="audio/mp4"></audio>
-    <audio id="track2" loop preload="auto"><source src="tbg.m4a" type="audio/mp4"></audio>
+    <audio id="track1" preload="auto"><source src="wya.m4a" type="audio/mp4">
+<audio id="track2" loop preload="auto"><source src="tbg.m4a" type="audio/mp4">
 
     <div class="hero-title font-black uppercase pointer-events-none">
         <div id="layer-1">SHAZA</div>
@@ -294,11 +294,14 @@
         intro.play().catch(e => console.warn("Audio play blocked by browser. Click again."));
         
         intro.onended = () => {
-            if (bgMusic) startBackgroundMusic(bgMusic);
+            if (bgMusic) {
+                bgMusic.volume = 0.4;
+                bgMusic.play().catch(e => console.log("Background audio failed:", e));
+            }
         };
     }
 
-    // 2. Visual Transitions
+    // 2. Visual Transitions — FIXED: force display & visibility
     if (entrance) {
         gsap.to(entrance, { 
             y: "-100%", 
@@ -311,7 +314,8 @@
     }
 
     if (hero) {
-        // We use autoAlpha to handle BOTH opacity and visibility:visible
+        // AutoAlpha handles opacity + visibility, but we add display just in case
+        hero.style.display = 'flex';
         gsap.to(hero, { 
             autoAlpha: 1, 
             duration: 1.2, 
