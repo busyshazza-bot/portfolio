@@ -242,7 +242,7 @@
     </nav>
 
     <main id="hero-container" class="min-h-screen flex flex-col justify-center px-5 md:px-10 relative z-5 opacity-0 invisible">
-    <audio id="track1" preload="auto"><source src="wya.m4a" type="audio/mp4">
+   <audio id="track1" preload="auto"><source src="wya.m4a" type="audio/mp4">
 <audio id="track2" loop preload="auto"><source src="tbg.m4a" type="audio/mp4">
 
     <div class="hero-title font-black uppercase pointer-events-none">
@@ -283,6 +283,9 @@
     <div class="dock-item" style="color: var(--accent-gold);" onmouseenter="magnetic(event)" onclick="openPage('chronos')">// Chronos Matrix</div>
 </div>
     <script>
+        if (typeof gsap === 'undefined') {
+    console.error("GSAP failed to load — animations will not work");
+}
    function enterSite() {
     const intro = document.getElementById('track1');
     const bgMusic = document.getElementById('track2');
@@ -1117,14 +1120,12 @@ function closeSurah() {
 
 // Call initQuranGrid whenever the Quran page is opened
  // --- Ensure initQuranGrid is called when the Quran page is opened ---
-    const originalOpenPage = openPage;
-    openPage = function(id) {
-        originalOpenPage(id);
-        if (id === 'quran') {
-            // Use a slight delay to ensure the DOM is ready after the page content is loaded
-            setTimeout(initQuranGrid, 100); 
-        }
-    }
+   const originalOpenPage = openPage;
+openPage = function(id) {
+    originalOpenPage(id);
+    if (id === 'quran') setTimeout(initQuranGrid, 100);
+    if (id === 'chronos') renderRoutineMatrix();
+}
 
     function closeAll() {
         document.getElementById('page-display').classList.remove('active');
@@ -1136,15 +1137,6 @@ document.addEventListener('keydown', (e) => {
         closeAll();
     }
 });
-
-
-function closeAll() {
-    const display = document.getElementById('page-display');
-    // Only close if it's actually open
-    if (display.classList.contains('active')) {
-        display.classList.remove('active');
-    }
-}
 
     function magnetic(e) {
         const item = e.target;
@@ -1237,13 +1229,7 @@ const matrixColors = {
 };
 
 // Update openPage function to initialize the matrix grid when loaded
-const originalOpenPage = openPage;
-openPage = function(key) {
-    originalOpenPage(key);
-    if (key === 'chronos') {
-        renderRoutineMatrix();
-    }
-}
+
 
 function renderRoutineMatrix() {
     const coreGrid = document.getElementById('nodes-core-grid');
