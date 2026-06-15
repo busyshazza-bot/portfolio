@@ -6,8 +6,8 @@
     <title>The Infinite Archive | 2070 Edition</title>
     <!-- Fixed working CDNs -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@200;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@200;400;600&display=swap" rel="stylesheet" crossorigin="anonymous">
     <style>
     :root { 
         --bg-main: #050505;
@@ -994,7 +994,7 @@
         const content = document.getElementById('dynamic-content');
 
         // Load content
-        content.innerHTML = content[pageName] || `<p class="text-center text-red-500">Content not found</p>`;
+       content.innerHTML = window.content[pageName] || `<p class="text-center text-red-500">Content not found</p>`;
         
         // Activate page layer
         display.classList.add('active');
