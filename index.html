@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Infinite Archive | 2070 Edition</title>
-    <!-- Fixed working CDNs -->
     <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@200;400;600&display=swap" rel="stylesheet" crossorigin="anonymous">
-    <style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@200;400;600&display=swap" rel="stylesheet">
+     <style>
     :root { 
         --bg-main: #050505;
         --accent-gold: #c5a059;
@@ -27,6 +26,7 @@
         height: 100%;
     }
 
+    /* FIX: This makes sure you can click the buttons "through" the particles */
     #canvas {
         position: fixed;
         inset: 0;
@@ -46,7 +46,6 @@
         position: fixed; inset: 0; z-index: 9999; 
         background: #000;
         display: flex; flex-direction: column; align-items: center; justify-content: center;
-        pointer-events: all;
     }
 
     .page-layer {
@@ -96,289 +95,294 @@
     .glass-panel {
         background: var(--glass); border: 1px solid var(--glass-border);
         padding: 40px; transition: var(--transition-smooth);
-        background: rgba(6, 182, 212, 0.03);
-        backdrop-filter: blur(10px);
-        box-shadow: inset 0 0 20px rgba(6, 182, 212, 0.05);
     }
-    .glass-panel:hover { 
+           .glass-panel:hover { 
         background: rgba(197, 160, 89, 0.04);
         border-color: var(--accent-gold);
         transform: translateY(-5px);
     }
+         /* --- THE MARQUEE FIX --- */
+.marquee { 
+    overflow: hidden; 
+    white-space: nowrap; 
+    width: 100%; 
+    opacity: 0.3; /* Subtle look */
+    border-top: 1px solid rgba(197, 160, 89, 0.1);
+    border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+    padding: 20px 0;
+}
 
-    .marquee { 
-        overflow: hidden; 
-        white-space: nowrap; 
-        width: 100%; 
-        opacity: 0.3; 
-        border-top: 1px solid rgba(197, 160, 89, 0.1);
-        border-bottom: 1px solid rgba(197, 160, 89, 0.1);
-        padding: 20px 0;
-    }
+.marquee-content { 
+    display: inline-block; 
+    animation: runway 30s linear infinite; /* Adjust 30s for speed */
+    font-weight: 400; 
+    text-transform: uppercase; 
+    font-size: 12px; 
+    letter-spacing: 8px; 
+    color: var(--accent-gold);
+}
 
-    .marquee-content { 
-        display: inline-block; 
-        animation: runway 30s linear infinite; 
-        font-weight: 400; 
-        text-transform: uppercase; 
-        font-size: 12px; 
-        letter-spacing: 8px; 
-        color: var(--accent-gold);
-    }
+@keyframes runway { 
+    from { transform: translateX(0); } 
+    to { transform: translateX(-50%); } 
+}
+         .group:hover img {
+    filter: contrast(110%) brightness(110%) sepia(20%);
+}
 
-    @keyframes runway { 
-        from { transform: translateX(0); } 
-        to { transform: translateX(-50%); } 
-    }
+/* Add a subtle scanline over the portfolio images */
+.group::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+    opacity: 0.3;
+}
+         .blocked-screen {
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 1px dashed rgba(255, 0, 0, 0.3);
+    background: rgba(255, 0, 0, 0.02);
+}
+             /* --- NEW CSS FOR RUNWAY TEXT ANIMATION --- */
+      /* --- NEW CSS FOR VERTICAL RUNWAY TEXT ANIMATION --- */
+   /* Container for the runway */
+.runway-wrapper {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 40px; /* Narrow strip on the right */
+    overflow: hidden;
+    opacity: 0.2; /* Slightly more visible than 0.1 for effect */
+    pointer-events: none;
+}
 
-    .group:hover img {
-        filter: contrast(110%) brightness(110%) sepia(20%);
-    }
+@keyframes vertical-runway-scroll {
+    from { transform: translateY(100%); }
+    to { transform: translateY(-100%); }
+}
 
-    .group::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                    linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-        background-size: 100% 2px, 3px 100%;
-        pointer-events: none;
-        opacity: 0.3;
-    }
+.vertical-runway-text {
+    display: block;
+    white-space: nowrap;
+    writing-mode: vertical-rl; /* Built-in CSS for vertical text! */
+    text-orientation: upright; /* Keeps letters A-T-C-G stacked vertically */
+    font-family: monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #06b6d4; /* cyan-400 */
+    animation: vertical-runway-scroll 20s linear infinite;
+}
+         .glass-panel {
+    background: rgba(6, 182, 212, 0.03);
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 0 20px rgba(6, 182, 212, 0.05);
+}
+         /* Ensure the entrance is actually on top and clickable */
+#entrance {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #000;
+    pointer-events: all; /* CRITICAL: Must be 'all' to click the button */
+}
 
-    .blocked-screen {
-        height: 60vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        border: 1px dashed rgba(255, 0, 0, 0.3);
-        background: rgba(255, 0, 0, 0.02);
-    }
+/* Ensure the hero container starts hidden for GSAP to fade in */
+#hero-container {
+    opacity: 0;
+    visibility: hidden;
+}
 
-    .runway-wrapper {
-        position: absolute;
-        right: 0;
-        top: 0;
-        height: 100%;
-        width: 40px;
-        overflow: hidden;
-        opacity: 0.2;
-        pointer-events: none;
-    }
+/* Fix the Canvas so it doesn't eat your clicks */
+#canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none; /* Allows you to click 'through' the particles */
+}
+         .slideshow-container {
+    position: relative;
+    width: 100%;
+    height: 400px; /* adjust as needed */
+}
+    /* --- END NEW CSS --- */
 
-    @keyframes vertical-runway-scroll {
-        from { transform: translateY(100%); }
-        to { transform: translateY(-100%); }
-    }
-
-    .vertical-runway-text {
-        display: block;
-        white-space: nowrap;
-        writing-mode: vertical-rl;
-        text-orientation: upright;
-        font-family: monospace;
-        font-size: 10px;
-        letter-spacing: 4px;
-        color: #06b6d4;
-        animation: vertical-runway-scroll 20s linear infinite;
-    }
-
-    #hero-container {
-        opacity: 0;
-        visibility: hidden;
-    }
-
-    .slideshow-container {
-        position: relative;
-        width: 100%;
-        height: 400px;
-    }
-    </style>
+</style>
 </head>
-    <body>
+<body>
 
     <div id="custom-cursor"></div>
     <canvas id="canvas"></canvas>
 
     <div id="entrance">
-        <div class="absolute inset-0 opacity-20" style="background: radial-gradient(circle, var(--accent-gold) 0%, transparent 70%);"></div>
+    <div class="absolute inset-0 opacity-20" style="background: radial-gradient(circle, var(--accent-gold) 0%, transparent 70%);"></div>
+    
+    <div class="relative z-10 text-center">
+        <div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-8 opacity-50"></div>
+        <h1 class="text-[10px] tracking-[2em] mb-12 text-white uppercase font-light">Establishing Connection</h1>
         
-        <div class="relative z-10 text-center">
-            <div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-8 opacity-50"></div>
-            <h1 class="text-[10px] tracking-[2em] mb-12 text-white uppercase font-light">Establishing Connection</h1>
-            
-            <button class="group relative px-12 py-5 overflow-hidden rounded-full border border-[#c5a059]/30 transition-all duration-500 hover:border-[#c5a059]" onclick="enterSite()">
-                <span class="relative z-10 text-[10px] tracking-[5px] uppercase text-white group-hover:text-black transition-colors duration-500">Access Memory</span>
-                <div class="absolute inset-0 bg-[#c5a059] translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-            </button>
-        </div>
+        <button class="group relative px-12 py-5 overflow-hidden rounded-full border border-[#c5a059]/30 transition-all duration-500 hover:border-[#c5a059]" onclick="enterSite()">
+            <span class="relative z-10 text-[10px] tracking-[5px] uppercase text-white group-hover:text-black transition-colors duration-500">Access Memory</span>
+            <div class="absolute inset-0 bg-[#c5a059] translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+        </button>
     </div>
+</div>
 
     <nav class="fixed top-0 w-full px-12 py-10 flex justify-between items-center z-[100] mix-blend-difference">
         <div class="text-2xl font-black tracking-tighter cursor-pointer" onclick="closeAll()">ARCHIVE®</div>
         <div id="clock" class="text-[9px] tracking-[5px] uppercase opacity-50">00:00:00</div>
     </nav>
 
-    <main id="hero-container" class="min-h-screen flex flex-col justify-center px-5 md:px-10 relative z-5">
-        <audio id="track1" preload="auto">
-            <source src="wya.m4a" type="audio/mp4">
-            <!-- Add fallback or replace with working URL -->
-        
-        <audio id="track2" loop preload="auto">
-            <source src="tbg.m4a" type="audio/mp4">
-            <!-- Add fallback or replace with working URL -->
-        
+    <main id="hero-container" class="min-h-screen flex flex-col justify-center px-5 md:px-10 relative z-5 opacity-0 invisible">
+    <audio id="track1" preload="auto"><source src="wya.m4a" type="audio/mp4"></audio>
+    <audio id="track2" loop preload="auto"><source src="tbg.m4a" type="audio/mp4"></audio>
 
-        <div class="hero-title font-black uppercase pointer-events-none">
-            <div id="layer-1">SHAZA</div>
-            <div id="layer-2" class="italic text-transparent" style="-webkit-text-stroke: 1px white;">MOHAMED.</div>
+    <div class="hero-title font-black uppercase pointer-events-none">
+        <div id="layer-1">SHAZA</div>
+        <div id="layer-2" class="italic text-transparent" style="-webkit-text-stroke: 1px white;">MOHAMED.</div>
+    </div>
+    <p class="mt-10 max-w-xl text-lg text-zinc-500 font-light leading-relaxed">
+        Bridging the gap between <span class="text-white">Ancient Wisdom</span> and <span class="text-white">Digital Frontiers</span>.
+    </p>
+    
+    <div onclick="toggleMusic()" class="fixed bottom-12 right-12 z-[100] cursor-pointer group">
+        <div class="flex items-center gap-4 border border-white/10 px-6 py-3 rounded-full hover:bg-white/10 transition backdrop-blur-md">
+            <div id="status-dot" class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></div>
+            <span id="musicText" class="text-[8px] tracking-[0.4em] uppercase opacity-50">Atmosphere Off</span>
         </div>
-        <p class="mt-10 max-w-xl text-lg text-zinc-500 font-light leading-relaxed">
-            Bridging the gap between <span class="text-white">Ancient Wisdom</span> and <span class="text-white">Digital Frontiers</span>.
-        </p>
+    </div>
         
-        <div onclick="toggleMusic()" class="fixed bottom-12 right-12 z-[100] cursor-pointer group">
-            <div class="flex items-center gap-4 border border-white/10 px-6 py-3 rounded-full hover:bg-white/10 transition backdrop-blur-md">
-                <div id="status-dot" class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></div>
-                <span id="musicText" class="text-[8px] tracking-[0.4em] uppercase opacity-50">Atmosphere Off</span>
-            </div>
-        </div>
-            
-        <div class="marquee mt-20">
-            <div class="marquee-content">
-                Runway Ready • Creative Direction • Professional Ethics • Global Reach • Visual Storytelling • 
-                Runway Ready • Creative Direction • Professional Ethics • Global Reach • Visual Storytelling • 
-                Runway Ready • Creative Direction • Professional Ethics • Global Reach • Visual Storytelling • 
-                Runway Ready • Creative Direction • Professional Ethics • Global Reach • Visual Storytelling • 
-            </div>
-        </div>
+       <div class="marquee mt-20">
+    <div class="marquee-content">
+        Runway Ready • Creative Direction • Professional Ethics • Global Reach • Visual Storytelling • 
+        Runway Ready • Creative Direction • Professional Ethics • Global Reach • Visual Storytelling • 
+        Runway Ready • Creative Direction • Professional Ethics • Global Reach • Visual Storytelling • 
+        Runway Ready • Creative Direction • Professional Ethics • Global Reach • Visual Storytelling • 
+    </div>
+</div>
     </main>
+  <header id="hero-container" class="h-screen flex flex-col justify-center items-center text-center relative overflow-hidden">
+    <div class="hero-bg-road"></div>
 
+    <audio id="track1" preload="auto"><source src="wya.m4a" type="audio/mp4"></audio>
+    <audio id="track2" loop preload="auto"><source src="tbg.m4a" type="audio/mp4"></audio>
+
+    <div onclick="toggleMusic()" class="absolute bottom-12 right-12 z-[100] cursor-pointer group">
+        <div class="flex items-center gap-4 border border-white/10 px-6 py-3 rounded-full hover:bg-white/10 transition">
+            <div id="status-dot" class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></div>
+            <span id="musicText" class="text-[8px] tracking-[0.4em] uppercase opacity-50">Atmosphere Off</span>
+        </div>
+    </div>
+</header>
     <div id="page-display" class="page-layer">
         <div class="text-right text-[10px] tracking-[5px] mb-20 cursor-pointer" onclick="closeAll()">[ ESC ]</div>
         <div id="dynamic-content"></div>
     </div>
 
-    <div class="nav-dock">
-        <div class="dock-item" onmouseenter="magnetic(event)" onclick="openPage('portfolio')">Portfolio</div>
-        <div class="dock-item" onmouseenter="magnetic(event)" onclick="openPage('quran')">Quran</div>
-        <div class="dock-item" onmouseenter="magnetic(event)" onclick="openPage('speech')">Public Speaking</div>
-        <div class="dock-item" onmouseenter="magnetic(event)" onclick="openPage('career')">Career</div>
-        <div class="dock-item" onmouseenter="magnetic(event)" onclick="openPage('bio')">Bio & Services</div>
-        <div class="dock-item" style="color: var(--accent-gold);" onmouseenter="magnetic(event)" onclick="openPage('chronos')">// Chronos Matrix</div>
-    </div>
+   <div class="nav-dock">
+    <div class="dock-item" onmouseenter="magnetic(event)" onclick="openPage('portfolio')">Portfolio</div>
+    <div class="dock-item" onmouseenter="magnetic(event)" onclick="openPage('quran')">Quran</div>
+    <div class="dock-item" onmouseenter="magnetic(event)" onclick="openPage('speech')">Public Speaking</div>
+    <div class="dock-item" onmouseenter="magnetic(event)" onclick="openPage('career')">Career</div>
+    <div class="dock-item" onmouseenter="magnetic(event)" onclick="openPage('bio')">Bio & Services</div>
+</div>
 
-    <div id="surah-overlay" class="page-layer" style="display:none; clip-path:none; opacity:0;">
-        <div class="w-full max-w-6xl">
-            <div class="flex justify-between mb-10">
-                <h3 id="active-surah-name" class="text-4xl font-bold italic">SURAH NAME</h3>
-                <button onclick="closeSurah()" class="text-[10px] tracking-[5px] border border-white/20 px-6 py-2 rounded-full hover:bg-white hover:text-black">BACK TO GRID</button>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="surah-video-grid"></div>
-        </div>
-    </div>
-        <script>
-    // Check GSAP availability
-    if (typeof gsap === 'undefined') {
-        console.error("GSAP failed to load — animations will not work");
-    }
-
+    <script>
     function enterSite() {
-        const intro = document.getElementById('track1');
-        const bgMusic = document.getElementById('track2');
-        const entrance = document.getElementById('entrance');
-        const hero = document.getElementById('hero-container');
+    const intro = document.getElementById('track1');
+    const bgMusic = document.getElementById('track2');
+    const entrance = document.getElementById('entrance');
+    const hero = document.getElementById('hero-container');
 
-        if (intro) {
-            intro.play().catch(e => console.warn("Audio blocked — browser requires interaction first:", e));
-            intro.onended = () => {
-                if (bgMusic) {
-                    bgMusic.volume = 0.4;
-                    bgMusic.play().catch(e => console.log("Background audio failed:", e));
-                }
-            };
-        }
-
-        // Animate entrance out
-        if (entrance) {
-            if (typeof gsap !== 'undefined') {
-                gsap.to(entrance, { 
-                    y: "-100%", 
-                    duration: 1.5, 
-                    ease: "expo.inOut",
-                    onComplete: () => entrance.style.display = 'none'
-                });
-            } else {
-                entrance.style.transition = 'transform 1.5s ease';
-                entrance.style.transform = 'translateY(-100%)';
-                setTimeout(() => entrance.style.display = 'none', 1500);
-            }
-        }
-
-        // Show hero
-        if (hero) {
-            hero.style.display = 'flex';
-            if (typeof gsap !== 'undefined') {
-                gsap.to(hero, { 
-                    autoAlpha: 1, 
-                    duration: 1.2, 
-                    delay: 0.5,
-                    ease: "power2.out"
-                });
-            } else {
-                setTimeout(() => {
-                    hero.style.opacity = '1';
-                    hero.style.visibility = 'visible';
-                    hero.style.transition = 'opacity 1.2s ease, visibility 1.2s ease';
-                }, 500);
-            }
-        }
+    // 1. Audio Logic
+    if (intro) {
+        intro.play().catch(e => console.warn("Audio play blocked by browser. Click again."));
+        
+        intro.onended = () => {
+            if (bgMusic) startBackgroundMusic(bgMusic);
+        };
     }
 
-    function toggleMusic() {
-        const track1 = document.getElementById('track1');
-        const track2 = document.getElementById('track2');
-        const statusDot = document.getElementById('status-dot');
-        const musicText = document.getElementById('musicText');
-        const targetVolume = 0.4;
-
-        if (!track1.paused) {
-            track1.pause();
-            track1.currentTime = 0;
-        }
-
-        if (track2.paused) {
-            track2.volume = 0; 
-            track2.play().catch(e => console.log("Playback failed:", e));
-            
-            if (window.fadeEffect) clearInterval(window.fadeEffect);
-            window.fadeEffect = setInterval(() => {
-                if (track2.volume < targetVolume) {
-                    track2.volume = Math.min(targetVolume, track2.volume + 0.01);
-                } else {
-                    clearInterval(window.fadeEffect);
-                }
-            }, 30);
-
-            musicText.innerText = "Atmosphere On";
-            statusDot.className = "w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse";
-        } else {
-            if (window.fadeEffect) clearInterval(window.fadeEffect);
-            window.fadeEffect = setInterval(() => {
-                if (track2.volume > 0.02) {
-                    track2.volume -= 0.02;
-                } else {
-                    track2.pause();
-                    clearInterval(window.fadeEffect);
-                }
-            }, 20);
-
-            musicText.innerText = "Atmosphere Off";
-            statusDot.className = "w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse";
-        }
+    // 2. Visual Transitions
+    if (entrance) {
+        gsap.to(entrance, { 
+            y: "-100%", 
+            duration: 1.5, 
+            ease: "expo.inOut",
+            onComplete: () => {
+                entrance.style.display = 'none';
+            }
+        });
     }
+
+    if (hero) {
+        // We use autoAlpha to handle BOTH opacity and visibility:visible
+        gsap.to(hero, { 
+            autoAlpha: 1, 
+            duration: 1.2, 
+            delay: 0.5,
+            ease: "power2.out"
+        });
+    }
+}
+                                  function toggleMusic() {
+    // 1. Get all your elements first
+    const track1 = document.getElementById('track1');
+    const track2 = document.getElementById('track2'); // This is the 'Atmosphere' track
+    const statusDot = document.getElementById('status-dot');
+    const musicText = document.getElementById('musicText');
+    const targetVolume = 0.4;
+
+    // 2. Safety: If the intro (track1) is playing, stop it immediately
+    if (!track1.paused) {
+        track1.pause();
+        track1.currentTime = 0; // Reset it to the start
+    }
+
+    // 3. Logic for the Atmosphere (track2)
+    if (track2.paused) {
+        // --- TURN ON ---
+        track2.volume = 0; 
+        track2.play().catch(e => console.log("Playback failed:", e));
+        
+        // Clear any existing fades to prevent overlapping
+        if (window.fadeEffect) clearInterval(window.fadeEffect);
+
+        window.fadeEffect = setInterval(() => {
+            if (track2.volume < targetVolume) {
+                track2.volume = Math.min(targetVolume, track2.volume + 0.01);
+            } else {
+                clearInterval(window.fadeEffect);
+            }
+        }, 30);
+
+        musicText.innerText = "Atmosphere On";
+        statusDot.className = "w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse";
+    } else {
+        // --- TURN OFF ---
+        if (window.fadeEffect) clearInterval(window.fadeEffect);
+
+        window.fadeEffect = setInterval(() => {
+            if (track2.volume > 0.02) {
+                track2.volume -= 0.02;
+            } else {
+                track2.pause();
+                clearInterval(window.fadeEffect);
+            }
+        }, 20);
+
+        musicText.innerText = "Atmosphere Off";
+        statusDot.className = "w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse";
+    }
+}
 
     function updateClock() {
         const now = new Date();
@@ -386,24 +390,20 @@
     }
     setInterval(updateClock, 1000);
 
-    // Cursor & Parallax
+    // --- 2. CURSOR & PARALLAX ---
     const cursor = document.getElementById('custom-cursor');
     document.addEventListener('mousemove', (e) => {
-        if (typeof gsap !== 'undefined') {
-            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
-            
-            const xVal = (e.clientX / window.innerWidth - 0.5) * 40;
-            const yVal = (e.clientY / window.innerHeight - 0.5) * 40;
-            gsap.to("#layer-1", { x: xVal * 1.5, y: yVal * 1.5, duration: 1 });
-            gsap.to("#layer-2", { x: -xVal, y: -yVal, duration: 1 });
-        } else {
-            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-        }
+        gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+        
+        const xVal = (e.clientX / window.innerWidth - 0.5) * 40;
+        const yVal = (e.clientY / window.innerHeight - 0.5) * 40;
+        gsap.to("#layer-1", { x: xVal * 1.5, y: yVal * 1.5, duration: 1 });
+        gsap.to("#layer-2", { x: -xVal, y: -yVal, duration: 1 });
     });
 
-    // Content Data
+    // --- 3. DYNAMIC CONTENT (FUTURE ARCHIVE) ---
     const content = {
-        portfolio: `
+       portfolio: `
    <div class="max-w-7xl mx-auto pb-32">
     <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
         <div>
@@ -419,9 +419,12 @@
         
         <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700 hover:border-[#c5a059]/50">
             <div class="slideshow-container relative w-full h-[400px]"> 
-                <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?q=80&w=1000&auto=format&fit=crop" class="slideshow-img w-full h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0" alt="Portfolio image">
-                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop" class="slideshow-img w-full h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0 hidden" alt="Portfolio image">
-                <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=1000&auto=format&fit=crop" class="slideshow-img w-full h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0 hidden" alt="Portfolio image">
+                <img src="footy.JPEG" class="slideshow-img w-full h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0">
+                <img src="footy2.JPEG" class="slideshow-img w-full h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0 hidden">
+                <img src="footy3.JPEG" class="slideshow-img w-full h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0 hidden">
+                <img src="footy4.JPEG" class="slideshow-img w-full h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0 hidden">
+                <img src="footy5.JPEG" class="slideshow-img w-full h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0 hidden">
+                <img src="footy6.JPEG" class="slideshow-img w-full h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0 hidden">
             </div>
             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
             <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 z-10">
@@ -432,7 +435,7 @@
         </div>
 
         <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700">
-            <img src="https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?q=80&w=1000&auto=format&fit=crop" class="w-full aspect-square object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Modernity">
+            <img src="brownthobe.jpeg" class="w-full aspect-square object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-1000">
             <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
             <div class="absolute top-4 right-4">
                 <div class="w-2 h-2 bg-[#c5a059] rounded-full animate-ping"></div>
@@ -443,30 +446,49 @@
         </div>
 
        <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700">
-                <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1000&auto=format&fit=crop" class="w-full grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Ancestral Poise">
+                <img src="countryside.jpg" class="w-full grayscale group-hover:grayscale-0 transition-all duration-1000">
                 <div class="absolute bottom-8 left-8">
                     <h4 class="text-3xl font-black uppercase text-white leading-none">Ancestral<br>Poise</h4>
                 </div>
             </div>
 
             <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700">
-                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000&auto=format&fit=crop" class="w-full aspect-video object-cover opacity-50 group-hover:opacity-100 transition-opacity duration-1000" alt="Global network">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000&auto=format&fit=crop" class="w-full aspect-video object-cover opacity-50 group-hover:opacity-100 transition-opacity duration-1000">
                 <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <div class="px-6 py-2 border border-white/20 backdrop-blur-md text-[10px] tracking-[5px] uppercase">View Data</div>
                 </div>
             </div>
 
             <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700">
-                <img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=1000&auto=format&fit=crop" class="w-full grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Global Reach">
+                <img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=1000&auto=format&fit=crop" class="w-full grayscale group-hover:grayscale-0 transition-all duration-1000">
                 <div class="absolute bottom-8 left-8">
                     <h4 class="text-3xl font-black uppercase text-white leading-none">Global<br>Reach</h4>
                 </div>
             </div>
 
             <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700">
-                <img src="https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?q=80&w=1000&auto=format&fit=crop" class="w-full grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Connection">
+                <img src="https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?q=80&w=1000&auto=format&fit=crop" class="w-full grayscale group-hover:grayscale-0 transition-all duration-1000">
                 <div class="absolute inset-0 border-[20px] border-black/0 group-hover:border-black/20 transition-all duration-500"></div>
             </div>
+            <div class="relative group overflow-hidden rounded-sm bg-zinc-900 break-inside-avoid border border-white/5 transition-all duration-700 hover:border-[#c5a059]/50">
+            <div class="slideshow-container relative w-full h-[400px]"> 
+                <img src="eid1.jpeg" class="slideshow-img w-full h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0">
+                <img src="eid2.jpeg" class="slideshow-img w-full h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0 hidden">
+                <img src="eid3.jpeg" class="slideshow-img w-full h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0 hidden">
+                <img src="eid4.jpeg" class="slideshow-img w-full h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0 hidden">
+                <img src="eid5.jpeg" class="slideshow-img w-full h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0 hidden">
+                <img src="eid6.jpeg" class="slideshow-img w-full h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0 hidden">
+                <img src="eid7.jpeg" class="slideshow-img w-full h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0 hidden">
+                <img src="eid8.PNG" class="slideshow-img w-full h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-60 group-hover:opacity-100 absolute inset-0 hidden">
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+            <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 z-10">
+                <span class="text-[9px] text-[#c5a059] tracking-[4px] uppercase opacity-50">Ref_001</span>
+                <h4 class="text-xl font-bold uppercase tracking-tight text-white mt-1">Sartorial Ethics</h4>
+                <div class="h-[1px] w-0 group-hover:w-full bg-[#c5a059]/50 transition-all duration-700 mt-4"></div>
+            </div>
+        </div>
+
 
         </div>
 
@@ -487,7 +509,7 @@
                 <div class="glass-panel group relative overflow-hidden p-0 break-inside-avoid border border-white/5 transition-all duration-700 hover:border-[#c5a059]/50">
                     <div class="aspect-[9/16] w-full overflow-hidden">
                         <video 
-                            src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" 
+                            src="your-video-1.mp4" 
                             class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-60 group-hover:opacity-100"
                             muted 
                             loop 
@@ -510,7 +532,7 @@
             <div class="glass-panel group relative overflow-hidden p-0 break-inside-avoid border border-white/5 transition-all duration-700 hover:border-[#c5a059]/50">
     <div class="aspect-[9/16] w-full overflow-hidden relative">
         <video 
-            src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" 
+            src="dundun1.mp4" 
             class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-60 group-hover:opacity-100"
             loop 
             playsinline
@@ -519,7 +541,7 @@
             })" 
             onmouseout="this.pause(); this.currentTime = 0;"
         >
-            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" type="video/mp4">
+            <source src="your-video-1.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
 
@@ -542,7 +564,7 @@
                 <div class="glass-panel group relative overflow-hidden p-0 break-inside-avoid border border-white/5 transition-all duration-700 hover:border-[#c5a059]/50">
                     <div class="aspect-[9/16] w-full overflow-hidden">
                         <video 
-                            src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" 
+                            src="your-video-3.mp4" 
                             class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-60 group-hover:opacity-100"
                             muted 
                             loop 
@@ -572,6 +594,19 @@
     
     <div class="hex-grid-container" id="quran-grid">
         </div>
+
+    <div id="surah-overlay" class="page-layer" style="display:none; clip-path:none; opacity:0;">
+        <div class="w-full max-w-6xl">
+            <div class="flex justify-between mb-10">
+                <h3 id="active-surah-name" class="text-4xl font-bold italic">SURAH NAME</h3>
+                <button onclick="closeSurah()" class="text-[10px] tracking-[5px] border border-white/20 px-6 py-2 rounded-full hover:bg-white hover:text-black">BACK TO GRID</button>
+            </div>
+            <!-- THIS IS THE IMPORTANT PART: THE VIDEO GRID CONTAINER -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="surah-video-grid"> 
+                <!-- Videos will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
 `,
         speech: `
             <div class="max-w-7xl mx-auto pb-32">
@@ -585,7 +620,7 @@
                 </div>
 
                 <div class="group relative w-full h-[70vh] mb-12 overflow-hidden border border-white/5 flex items-end">
-                    <img src="https://images.unsplash.com/photo-1475721027187-402ad2989a3b?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-40" alt="Public speaking">
+                    <img src="https://images.unsplash.com/photo-1475721027187-402ad2989a3b?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 opacity-40">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
                     
                     <div class="relative z-10 p-12 w-full flex flex-col md:flex-row justify-between items-end gap-8">
@@ -601,7 +636,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="glass-panel group relative overflow-hidden p-0 min-h-[500px] flex flex-col">
                         <div class="h-64 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover opacity-30 grayscale group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" alt="Lecture">
+                            <img src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover opacity-30 grayscale group-hover:opacity-60 group-hover:scale-110 transition-all duration-700">
                             <div class="absolute inset-0 flex items-center justify-center">
                                 <div class="w-16 h-16 border border-white/20 rounded-full flex items-center justify-center backdrop-blur-sm group-hover:bg-[#c5a059] group-hover:border-transparent transition-all">
                                     <div class="w-0 h-0 border-t-[6px] border-t-transparent border-l-[10px] border-l-white border-b-[6px] border-b-transparent ml-1"></div>
@@ -623,7 +658,7 @@
 
                     <div class="glass-panel group relative overflow-hidden p-0 min-h-[500px] flex flex-col">
                          <div class="h-64 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1505373630103-f21ee0929258?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover opacity-30 grayscale group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" alt="Ethics">
+                            <img src="https://images.unsplash.com/photo-1505373630103-f21ee0929258?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover opacity-30 grayscale group-hover:opacity-60 group-hover:scale-110 transition-all duration-700">
                         </div>
                         <div class="p-10 flex-grow flex flex-col justify-between">
                             <div>
@@ -848,247 +883,305 @@
                     </div>
                 </div>
             </div>
-        `,
-        chronos: `
-        <div class="max-w-7xl mx-auto pb-24">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 border-b border-[#c5a059]/10 pb-10">
-                <div>
-                    <span class="text-[#c5a059] font-mono tracking-[10px] uppercase block mb-4 animate-pulse">// SYSTEM INTERFACE</span>
-                    <h2 class="text-5xl font-black tracking-tighter uppercase italic leading-[0.9]">Chronos <br><span class="text-transparent" style="-webkit-text-stroke: 1px var(--accent-gold);">Matrix.</span></h2>
-                </div>
-                <div class="text-right font-mono text-xs text-zinc-400">
-                    <div>RESONANCE ALIGNMENT INDEX: <span id="res-score" class="text-[#c5a059] font-bold">100%</span></div>
-                    <div class="opacity-40 text-[10px] mt-1">EPOCH TIME AXIS SPAN: 2070 // 2126</div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
-                <div class="glass-panel p-8 rounded-none space-y-6">
-                    <div>
-                        <h3 class="text-xs font-bold tracking-widest text-[#c5a059] uppercase" style="font-family: 'Orbitron', sans-serif;">Inject Anchor Node</h3>
-                        <p class="text-[11px] text-zinc-500 mt-1 uppercase tracking-wider">Materialize physical or mental anchors into the timeline.</p>
-                    </div>
-                    <form id="matrix-injector" class="space-y-4" onsubmit="injectNewNode(event)">
-                        <div>
-                            <label class="block text-[10px] uppercase tracking-widest text-zinc-400 mb-2 font-mono">Anchor Designation</label>
-                            <input type="text" id="node-title" required placeholder="e.g., Deep State Neural Recharge" 
-                                   class="w-full bg-black/60 border border-[#c5a059]/20 rounded-none px-4 py-3 text-xs focus:outline-none focus:border-[#c5a059] text-white tracking-wide">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] uppercase tracking-widest text-zinc-400 mb-2 font-mono">Energy Matrix Blueprint</label>
-                            <select id="node-blueprint" class="w-full bg-black/60 border border-[#c5a059]/20 rounded-none px-4 py-3 text-xs focus:outline-none focus:border-[#c5a059] text-zinc-400">
-                                <option value="vitality">Vitality (Physical Health / Ritual)</option>
-                                <option value="cognition">Cognition (Focus / Output)</option>
-                                <option value="essence">Essence (Spirit / Restoration)</option>
-                                <option value="influence">Influence (Social / Leadership)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-[10px] uppercase tracking-widest text-zinc-400 mb-2 font-mono">Temporal Coordinates</label>
-                            <input type="date" id="node-date" class="w-full bg-black/60 border border-[#c5a059]/20 rounded-none px-4 py-3 text-xs focus:outline-none focus:border-[#c5a059] text-white">
-                        </div>
-                        <button type="submit" class="w-full py-3 border border-[#c5a059]/40 bg-[#c5a059]/5 hover:bg-[#c5a059] hover:text-black transition-all duration-500 uppercase text-[10px] tracking-[4px]">
-                            Inject Into Timeline
-                        </button>
-                    </form>
-                </div>
-
-                <div class="lg:col-span-2 glass-panel p-8 rounded-none min-h-[600px] relative overflow-hidden">
-                    <h3 class="text-xs font-bold tracking-widest text-[#c5a059] uppercase mb-6" style="font-family: 'Orbitron', sans-serif;">Timeline Visualisation</h3>
-                    <div id="timeline-container" class="relative h-[500px] border-l border-[#c5a059]/20 pl-8 space-y-8">
-                        <div class="timeline-node relative" data-type="vitality">
-                            <div class="absolute -left-10 top-0 w-4 h-4 rounded-full bg-[#c5a059] shadow-[0_0_10px_#c5a059]"></div>
-                            <span class="text-[9px] text-zinc-500 font-mono">2026-06-15</span>
-                            <h4 class="text-white font-bold uppercase mt-1">System Initialisation</h4>
-                            <p class="text-zinc-400 text-xs mt-1">Core archive loaded. All sectors online.</p>
-                        </div>
-                    </div>
-                    <div class="absolute bottom-4 right-4 text-[8px] text-zinc-600 font-mono">CHRONOS_v4.2                </div>
-            </div>
-        </div>
-    `
+        `
     };
 
-    // --- CHRONOS MATRIX FUNCTIONS ---
-    function injectNewNode(e) {
-        e.preventDefault();
-        const title = document.getElementById('node-title').value;
-        const type = document.getElementById('node-blueprint').value;
-        const date = document.getElementById('node-date').value;
+   const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let mouse = { x: -100, y: -100 };
 
-        const container = document.getElementById('timeline-container');
-        const nodeEl = document.createElement('div');
-        nodeEl.className = "timeline-node relative mb-12";
-        nodeEl.dataset.type = type;
+    window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    window.addEventListener('resize', () => { 
+        canvas.width = window.innerWidth; 
+        canvas.height = window.innerHeight; 
+        initParticles();
+    });
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
 
-        const colors = {
-            vitality: '#22d3ee',
-            cognition: '#a855f7',
-            essence: '#f59e0b',
-            influence: '#ec4899'
-        };
-        const color = colors[type] || '#c5a059';
-
-        nodeEl.innerHTML = `
-            <div class="absolute -left-10 top-0 w-4 h-4 rounded-full shadow-[0_0_10px_${color}]" style="background:${color};"></div>
-            <span class="text-[9px] text-zinc-500 font-mono">${date}</span>
-            <h4 class="text-white font-bold uppercase mt-1">${title}</h4>
-            <p class="text-zinc-400 text-xs mt-1">Blueprint: ${type.charAt(0).toUpperCase() + type.slice(1)}</p>
-        `;
-
-        container.appendChild(nodeEl);
-        e.target.reset();
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.baseX = this.x;
+            this.baseY = this.y;
+            this.size = Math.random() * 1.5 + 0.5;
+            this.density = (Math.random() * 20) + 1;
+        }
+        update() {
+            let dx = mouse.x - this.x;
+            let dy = mouse.y - this.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            let forceDirectionX = dx / distance;
+            let forceDirectionY = dy / distance;
+            let maxDistance = 150;
+            let force = (maxDistance - distance) / maxDistance;
+            
+            if (distance < maxDistance) {
+                this.x -= forceDirectionX * force * this.density;
+                this.y -= forceDirectionY * force * this.density;
+            } else {
+                if (this.x !== this.baseX) {
+                    let dx = this.x - this.baseX;
+                    this.x -= dx / 15;
+                }
+                if (this.y !== this.baseY) {
+                    let dy = this.y - this.baseY;
+                    this.y -= dy / 15;
+                }
+            }
+        }
+        draw() {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+        }
     }
 
-    // --- QURAN SURAH DATA & GRID ---
-    const surahList = [
-        {name: "Al-Fatiha", id: 1, video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"},
-        {name: "Al-Baqarah", id: 2, video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"},
-        {name: "Ali 'Imran", id: 3, video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"},
-        {name: "An-Nisa", id: 4, video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"},
-        {name: "Al-Ma'idah", id: 5, video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"},
-        {name: "Al-An'am", id: 6, video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"},
-        {name: "Al-A'raf", id: 7, video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4"},
-        {name: "Al-Anfal", id: 8, video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"}
-    ];
+    function initParticles() {
+        particles = [];
+        for (let i = 0; i < 120; i++) particles.push(new Particle());
+    }
+    initParticles();
 
-    function buildQuranGrid() {
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    // --- 5. NAVIGATION LOGIC ---
+    function openPage(id) {
+        const display = document.getElementById('page-display');
+        const contentBox = document.getElementById('dynamic-content');
+        contentBox.innerHTML = content[id] || "Encrypted Data Lost...";
+        display.classList.add('active');
+        
+        // Staggered entrance for page content
+        gsap.from("#dynamic-content > *", { opacity: 0, y: 30, duration: 0.8, delay: 0.4, ease: "power2.out" });
+    }
+        // Function to populate the grid
+function initQuranGrid() {
         const grid = document.getElementById('quran-grid');
-        surahList.forEach(surah => {
-            const item = document.createElement('div');
-            item.className = "hex-item cursor-pointer";
-            item.innerHTML = `
-                <div class="text-center">
-                    <div class="text-[10px] font-mono opacity-60 mb-1">${surah.id}</div>
-                    <div class="text-xs uppercase tracking-wider">${surah.name}</div>
+        if (!grid) return;
+        
+        let html = '';
+        for (let i = 1; i <= 114; i++) {
+            html += `
+                <div class="surah-hex" onclick="openSurah(${i})">
+                    <span class="hex-num">${i}</span>
+                    <span class="hex-title">SURAH</span>
                 </div>
             `;
-            item.onclick = () => openSurah(surah);
-            grid.appendChild(item);
-        });
+        }
+        grid.innerHTML = html;
     }
-
-    function openSurah(surah) {
-        document.getElementById('active-surah-name').textContent = `Surah ${surah.name}`;
-        const grid = document.getElementById('surah-video-grid');
-        grid.innerHTML = `
-            <div class="glass-panel p-6">
-                <video src="${surah.video}" controls class="w-full h-auto"></video>
-                <p class="text-zinc-400 text-xs mt-4">Recitation and reflection for Surah ${surah.name}.</p>
-            </div>
-        `;
+        const surahVideosData = {
+        1: [ // Surah Al-Fatihah
+            { url: "https://www.youtube.com/watch?v=example_url_for_fatihah_recitation", title: "Surah 1 Recitation", type: "recitation" },
+            { url: "https://www.youtube.com/watch?v=example_url_for_fatihah_contemplation", title: "Surah 1 Contemplation", type: "contemplation" }
+        ],
+        67: [ // Surah Al-Mulk (as an example)
+            { url: "https://www.youtube.com/watch?v=jCCxVRU89Dk", title: "Surah 67 Recitation", type: "recitation" },
+            { url: "https://www.youtube.com/watch?v=THJmN1rQu2Y", title: "Surah 67 Contemplation", type: "contemplation" }
+        ],
+        // Add more Surahs here!
+        // Example for Surah 2 (Al-Baqarah):
+        2: [
+            { url: "https://www.youtube.com/watch?v=example_url_for_baqarah_recitation", title: "Surah 2 Recitation", type: "recitation" },
+            { url: "https://www.youtube.com/watch?v=example_url_for_baqarah_contemplation", title: "Surah 2 Contemplation", type: "contemplation" }
+        ]
+        // You can keep adding entries like this for all 114 Surahs.
+    };
+        function openSurah(id) {
         const overlay = document.getElementById('surah-overlay');
-        overlay.style.display = 'block';
-        setTimeout(() => overlay.style.opacity = '1', 10);
-    }
+        // CORRECTED: Target the specific video grid container
+        const videoGrid = document.getElementById('surah-video-grid'); 
 
-    function closeSurah() {
-        const overlay = document.getElementById('surah-overlay');
-        overlay.style.opacity = '0';
-        setTimeout(() => overlay.style.display = 'none', 500);
-    }
+        document.getElementById('active-surah-name').innerText = "SURAH " + id;
 
-    // --- MAIN PAGE NAVIGATION ---
-    function openPage(pageName) {
-        const display = document.getElementById('page-display');
-        const content = document.getElementById('dynamic-content');
+        // Clear any previously loaded videos
+        videoGrid.innerHTML = '';
 
-        // Load content
-       content.innerHTML = window.content[pageName] || `<p class="text-center text-red-500">Content not found</p>`;
-        
-        // Activate page layer
-        display.classList.add('active');
+        // Get videos for the current Surah ID from our data
+        // Get videos for the current Surah ID from our data
+        const videos = surahVideosData[id];
 
-        // Special init for Quran
-        if (pageName === 'quran') buildQuranGrid();
+        if (videos) {
+            videos.forEach(video => {
+                // Determine CSS classes based on video type
+                const panelClass = video.type === 'recitation' ? 'border-cyan-500/30' : 'border-indigo-500/30';
+                const textColorClass = video.type === 'recitation' ? 'text-cyan-400' : 'text-indigo-400';
 
-        // Special lock for Career
-        if (pageName === 'career') {
-            setTimeout(() => {
-                const lock = document.getElementById('career-lock-container');
-                const actual = document.getElementById('career-actual-content');
-                if (lock && actual) {
-                    setTimeout(() => {
-                        lock.style.opacity = '0';
-                        lock.style.transform = 'scale(0.95)';
-                        setTimeout(() => {
-                            lock.style.display = 'none';
-                            actual.style.display = 'block';
-                            setTimeout(() => actual.style.opacity = '1', 100);
-                        }, 300);
-                    }, 2000);
-                }
-            }, 100);
+                // Create the HTML for the video player
+                const videoHtml = `
+                    <div class="glass-panel ${panelClass}">
+                        <h4 class="text-xs tracking-widest uppercase ${textColorClass}">
+                            ${video.title}
+                        </h4>
+                        <div class="aspect-video bg-zinc-900 rounded-2xl mt-4">
+                            <iframe 
+                                width="100%" 
+                                height="100%" 
+                                src="${video.url.replace('watch?v=', 'embed/')}" // Use embed URL for iframes
+                                title="${video.title}" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                `;
+                // Append the new video HTML to the grid
+                videoGrid.innerHTML += videoHtml;
+            });
+        } else {
+            // Handle cases where there are no videos defined for a Surah
+            videoGrid.innerHTML = '<p class="text-zinc-500 text-center col-span-full">No videos available for this Surah yet.</p>';
         }
 
-        // Init slideshows
-        initSlideshows();
+        // Show the overlay and animate its entrance
+        overlay.style.display = 'flex'; // Use 'flex' as per your CSS for .page-layer.active
+        gsap.to(overlay, { opacity: 1, duration: 0.5 });
+    }
+
+function closeSurah() {
+        const overlay = document.getElementById('surah-overlay');
+        gsap.to(overlay, { opacity: 0, duration: 0.3, onComplete: () => {
+            overlay.style.display = 'none';
+            // Optionally clear the video grid here as well if you want a clean slate
+            // document.getElementById('surah-video-grid').innerHTML = ''; 
+        }});
+    }
+
+// Call initQuranGrid whenever the Quran page is opened
+ // --- Ensure initQuranGrid is called when the Quran page is opened ---
+    const originalOpenPage = openPage;
+    openPage = function(id) {
+        originalOpenPage(id);
+        if (id === 'quran') {
+            // Use a slight delay to ensure the DOM is ready after the page content is loaded
+            setTimeout(initQuranGrid, 100); 
+        }
     }
 
     function closeAll() {
         document.getElementById('page-display').classList.remove('active');
     }
+        // --- KEYBOARD LISTENER ---
+// This listens for the physical 'Escape' key on your keyboard
+document.addEventListener('keydown', (e) => {
+    if (e.key === "Escape") {
+        closeAll();
+    }
+});
 
-    // --- MAGNETIC DOCK EFFECT ---
+// --- UPDATED NAVIGATION LOGIC ---
+function openPage(id) {
+    const display = document.getElementById('page-display');
+    const contentBox = document.getElementById('dynamic-content');
+    
+    // Set the content
+    contentBox.innerHTML = content[id] || "Encrypted Data Lost...";
+    
+    // Show the layer
+    display.classList.add('active');
+    
+    // Future-standard entrance animation for content
+    gsap.fromTo("#dynamic-content > *", 
+        { opacity: 0, y: 50, filter: "blur(10px)" }, 
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 1, delay: 0.5, stagger: 0.1, ease: "power4.out" }
+    );
+       if (id === 'portfolio') {
+        // Small delay to make sure images are loaded first
+        setTimeout(startSlideshow, 200); 
+    }
+}
+
+function closeAll() {
+    const display = document.getElementById('page-display');
+    // Only close if it's actually open
+    if (display.classList.contains('active')) {
+        display.classList.remove('active');
+    }
+}
+
     function magnetic(e) {
-        if (typeof gsap === 'undefined') return;
-        const el = e.target;
-        const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        gsap.to(el, { x: x * 0.3, y: y * 0.3, duration: 0.3 });
+        const item = e.target;
+        const moveHandler = (me) => {
+            const rect = item.getBoundingClientRect();
+            const x = me.clientX - rect.left - rect.width / 2;
+            const y = me.clientY - rect.top - rect.height / 2;
+            gsap.to(item, { x: x * 0.5, y: y * 0.5, duration: 0.3 });
+        };
+        const leaveHandler = () => {
+            gsap.to(item, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
+            item.removeEventListener('mousemove', moveHandler);
+            item.removeEventListener('mouseleave', leaveHandler);
+        };
+        item.addEventListener('mousemove', moveHandler);
+        item.addEventListener('mouseleave', leaveHandler);
     }
-    document.querySelectorAll('.dock-item').forEach(item => {
-        item.addEventListener('mouseleave', () => gsap.to(item, { x: 0, y: 0, duration: 0.5 }));
-    });
+        let isCareerUnlocked = false;
 
-    // --- IMAGE SLIDESHOWS ---
-    function initSlideshows() {
-        document.querySelectorAll('.slideshow-container').forEach(container => {
-            const imgs = container.querySelectorAll('.slideshow-img');
-            let i = 0;
-            setInterval(() => {
-                imgs[i].classList.add('hidden');
-                i = (i + 1) % imgs.length;
-                imgs[i].classList.remove('hidden');
-            }, 4000);
+document.addEventListener('keydown', (e) => {
+    // 1. Check if the "@" key is pressed
+    if (e.key === '@') {
+        // Prevent default browser behavior if needed
+        e.preventDefault();
+
+        // 2. Only trigger if the career page is actually open and locked
+        const lockScreen = document.getElementById('career-lock-container');
+        
+        if (lockScreen && !isCareerUnlocked) {
+            const pass = prompt("ENCRYPTED ACCESS REQUIRED. ENTER KEYCODE:");
+            
+            if (pass === 'genes') {
+                unlockCareer();
+            } else {
+                alert("ACCESS DENIED: INCORRECT CREDENTIALS");
+            }
+        }
+    }
+});
+     // --- Image Slideshow for Sartorial Ethics ---
+function startSlideshow() {
+    // Clear any existing interval to avoid multiple slideshows running
+    if (window.slideshowInterval) clearInterval(window.slideshowInterval);
+
+    window.slideshowInterval = setInterval(() => {
+        const images = document.querySelectorAll('.slideshow-img');
+        if (images.length === 0) return;
+
+        let currentIndex = 0;
+        images.forEach((img, index) => {
+            if (!img.classList.contains('hidden')) {
+                currentIndex = index;
+            }
         });
+
+        images[currentIndex].classList.add('hidden');
+        const nextIndex = (currentIndex + 1) % images.length;
+        images[nextIndex].classList.remove('hidden');
+    }, 7000); // Change image every 3 seconds
+}
+
+function unlockCareer() {
+    isCareerUnlocked = true;
+    const lockScreen = document.getElementById('career-lock-container');
+    const actualContent = document.getElementById('career-actual-content');
+
+    if (lockScreen && actualContent) {
+        // Transition effect
+        gsap.to(lockScreen, { opacity: 0, duration: 0.5, onComplete: () => {
+            lockScreen.style.display = 'none';
+            actualContent.style.display = 'block';
+            gsap.from(actualContent, { opacity: 0, y: 20, duration: 1 });
+        }});
     }
-
-    // --- CANVAS BACKGROUND EFFECT ---
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    window.onresize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-
-    const particles = Array.from({length: 80}, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 1.5 + 0.5,
-        s: Math.random() * 0.3 + 0.1
-    }));
-
-    function draw() {
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle = 'rgba(197, 160, 89, 0.4)';
-        particles.forEach(p => {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-            ctx.fill();
-            p.y += p.s;
-            if (p.y > canvas.height) p.y = 0;
-        });
-        requestAnimationFrame(draw);
-    }
-    draw();
-
-    // --- ESC KEY CLOSE ---
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') closeAll();
-    });
-
-    </script>
-
+}
+    
+        
+</script>
 </body>
 </html>
