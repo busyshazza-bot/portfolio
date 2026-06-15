@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Infinite Archive | 2070 Edition</title>
-        <script src="https://cdn.tailwindcss.com" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@200;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@200;400;600&display=swap" rel="stylesheet">
      <style>
     :root { 
         --bg-main: #050505;
@@ -283,16 +283,14 @@
     <div class="dock-item" style="color: var(--accent-gold);" onmouseenter="magnetic(event)" onclick="openPage('chronos')">// Chronos Matrix</div>
 </div>
     <script>
-    function enterSite() {
+   function enterSite() {
     const intro = document.getElementById('track1');
     const bgMusic = document.getElementById('track2');
     const entrance = document.getElementById('entrance');
     const hero = document.getElementById('hero-container');
 
-    // 1. Audio Logic
     if (intro) {
-        intro.play().catch(e => console.warn("Audio play blocked by browser. Click again."));
-        
+        intro.play().catch(e => console.warn("Audio blocked — browser requires interaction first:", e));
         intro.onended = () => {
             if (bgMusic) {
                 bgMusic.volume = 0.4;
@@ -301,27 +299,39 @@
         };
     }
 
-    // 2. Visual Transitions — FIXED: force display & visibility
+    // Animate entrance out
     if (entrance) {
-        gsap.to(entrance, { 
-            y: "-100%", 
-            duration: 1.5, 
-            ease: "expo.inOut",
-            onComplete: () => {
-                entrance.style.display = 'none';
-            }
-        });
+        if (typeof gsap !== 'undefined') {
+            gsap.to(entrance, { 
+                y: "-100%", 
+                duration: 1.5, 
+                ease: "expo.inOut",
+                onComplete: () => entrance.style.display = 'none'
+            });
+        } else {
+            entrance.style.transition = 'transform 1.5s ease';
+            entrance.style.transform = 'translateY(-100%)';
+            setTimeout(() => entrance.style.display = 'none', 1500);
+        }
     }
 
+    // Show hero
     if (hero) {
-        // AutoAlpha handles opacity + visibility, but we add display just in case
         hero.style.display = 'flex';
-        gsap.to(hero, { 
-            autoAlpha: 1, 
-            duration: 1.2, 
-            delay: 0.5,
-            ease: "power2.out"
-        });
+        if (typeof gsap !== 'undefined') {
+            gsap.to(hero, { 
+                autoAlpha: 1, 
+                duration: 1.2, 
+                delay: 0.5,
+                ease: "power2.out"
+            });
+        } else {
+            setTimeout(() => {
+                hero.style.opacity = '1';
+                hero.style.visibility = 'visible';
+                hero.style.transition = 'opacity 1.2s ease, visibility 1.2s ease';
+            }, 500);
+        }
     }
 }
                                   function toggleMusic() {
@@ -987,16 +997,31 @@
     animate();
 
     // --- 5. NAVIGATION LOGIC ---
-    function openPage(id) {
-        const display = document.getElementById('page-display');
-        const contentBox = document.getElementById('dynamic-content');
-        contentBox.innerHTML = content[id] || "Encrypted Data Lost...";
-        display.classList.add('active');
-        
-        // Staggered entrance for page content
-        gsap.from("#dynamic-content > *", { opacity: 0, y: 30, duration: 0.8, delay: 0.4, ease: "power2.out" });
+   function openPage(id) {
+    const display = document.getElementById('page-display');
+    const contentBox = document.getElementById('dynamic-content');
+    
+    contentBox.innerHTML = content[id] || "Encrypted Data Lost...";
+    display.classList.add('active');
+    
+    if (typeof gsap !== 'undefined') {
+        gsap.fromTo("#dynamic-content > *", 
+            { opacity: 0, y: 50, filter: "blur(10px)" }, 
+            { opacity: 1, y: 0, filter: "blur(0px)", duration: 1, delay: 0.5, stagger: 0.1, ease: "power4.out" }
+        );
+    } else {
+        setTimeout(() => {
+            document.querySelectorAll("#dynamic-content > *").forEach(el => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+                el.style.transition = 'all 1s ease';
+            });
+        }, 500);
     }
-        // Function to populate the grid
+
+    if (id === 'quran') setTimeout(initQuranGrid, 100);
+    if (id === 'portfolio') setTimeout(startSlideshow, 200);
+}
 function initQuranGrid() {
         const grid = document.getElementById('quran-grid');
         if (!grid) return;
@@ -1112,27 +1137,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// --- UPDATED NAVIGATION LOGIC ---
-function openPage(id) {
-    const display = document.getElementById('page-display');
-    const contentBox = document.getElementById('dynamic-content');
-    
-    // Set the content
-    contentBox.innerHTML = content[id] || "Encrypted Data Lost...";
-    
-    // Show the layer
-    display.classList.add('active');
-    
-    // Future-standard entrance animation for content
-    gsap.fromTo("#dynamic-content > *", 
-        { opacity: 0, y: 50, filter: "blur(10px)" }, 
-        { opacity: 1, y: 0, filter: "blur(0px)", duration: 1, delay: 0.5, stagger: 0.1, ease: "power4.out" }
-    );
-       if (id === 'portfolio') {
-        // Small delay to make sure images are loaded first
-        setTimeout(startSlideshow, 200); 
-    }
-}
 
 function closeAll() {
     const display = document.getElementById('page-display');
