@@ -280,6 +280,52 @@
 @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.4; }
+    /* --- UPDATED ROUTINE & TODO STYLES --- */
+.todo-container {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: rgba(255,255,255,0.01);
+    border: 1px dashed rgba(197, 160, 89, 0.1);
+    border-radius: 4px;
+}
+.todo-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: all 0.3s;
+}
+.todo-item:last-child { border-bottom: none; }
+.todo-text {
+    flex: 1;
+    font-size: 0.85rem;
+    color: var(--platinum);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.todo-text.completed {
+    text-decoration: line-through;
+    opacity: 0.4;
+}
+.todo-actions button {
+    background: none;
+    border: none;
+    color: var(--accent-gold);
+    opacity: 0.6;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-left: 0.5rem;
+}
+.todo-actions button:hover { opacity: 1; }
+.add-btn {
+    background: none;
+    border: none;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+/* Make timeline alignment perfect */
+.routine-card { position: relative; padding-left: 2rem; }
 }
     /* --- END NEW CSS --- */
 
@@ -953,79 +999,155 @@
                 </div>
             </div>
         `,
-        routine: `
+       routine: `
 <div class="max-w-7xl mx-auto pb-32">
     <div class="mb-20">
-        <span class="text-[#c5a059] font-mono tracking-[12px] uppercase block mb-4 text-[10px]">System_Protocol_004</span>
-        <h2 class="text-8xl font-black tracking-tighter uppercase italic leading-none">Routine <br><span class="text-transparent" style="-webkit-text-stroke: 1px var(--accent-gold);">Archive.</span></h2>
-        <p class="text-zinc-500 mt-6 max-w-2xl">A temporal framework designed to preserve optimal daily structure — engineered for long-term human alignment, fully functional decades from now.</p>
+        <span class="text-[#c5a059] font-mono tracking-[12px] uppercase block mb-4 text-[10px]">TEMPORAL_PROTOCOL_004 • CIRCADIAN_ARCHIVE</span>
+        <h2 class="text-8xl font-black tracking-tighter uppercase italic leading-none">Daily <br><span class="text-transparent" style="-webkit-text-stroke: 1px var(--accent-gold);">Rhythm.</span></h2>
+        <p class="text-zinc-500 mt-6 max-w-2xl">Engineered around your biological clock and the five obligatory prayers — designed to align body, mind, and spirit every single day. Fully editable, saved locally, and built to last.</p>
     </div>
 
-    <div class="routine-grid">
-        <!-- Morning Protocol -->
-        <div class="routine-card" data-progress="100">
-            <div class="routine-matrix">06:00–09:00 • PHASE_ALPHA</div>
-            <span class="routine-status complete"></span>
-            <div class="routine-time">06:00</div>
-            <h3 class="routine-title">Foundation & Clarity</h3>
-            <p class="text-zinc-400 text-sm leading-relaxed">Hydration, movement, and mental alignment. The most critical window for setting the trajectory of the day.</p>
-            <div class="routine-progress"><div class="routine-progress-fill"></div></div>
-        </div>
+    <!-- Prayer + Circadian Timeline -->
+    <div class="relative mb-32">
+        <div class="absolute left-[120px] top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-[#c5a059]/30 to-transparent"></div>
 
-        <!-- Focus Protocol -->
-        <div class="routine-card" data-progress="75">
-            <div class="routine-matrix">09:30–13:00 • PHASE_BETA</div>
+        <!-- FAJR -->
+        <div class="routine-card relative mb-10 group" data-prayer="fajr" data-time="05:00 — 06:30">
+            <div class="absolute -left-[130px] top-1/2 -translate-y-1/2 text-right w-[100px]">
+                <div class="text-[#c5a059] font-bold text-lg">FAJR</div>
+                <div class="text-[9px] text-zinc-500 uppercase tracking-widest">Dawn</div>
+            </div>
+            <div class="routine-matrix">CIRCADIAN_PHASE_1 • CORTISOL_RISE</div>
             <span class="routine-status active"></span>
-            <div class="routine-time">09:30</div>
-            <h3 class="routine-title">Deep Focus & Creation</h3>
-            <p class="text-zinc-400 text-sm leading-relaxed">Uninterrupted work, learning, and problem-solving. High cognitive load tasks reserved for peak neural efficiency.</p>
+            <div class="routine-time">05:00</div>
+            <h3 class="routine-title">Prayer • Alignment • Gratitude</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed mb-4">The day begins with light. Prayer, recitation, and setting intention. Best time for quiet reflection and spiritual connection.</p>
+            
+            <!-- EDITABLE TO-DO -->
+            <div class="todo-container" data-prayer="fajr">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-[10px] uppercase tracking-widest text-zinc-500">Tasks</span>
+                    <button class="add-btn text-[#c5a059] hover:text-white transition">+ ADD</button>
+                </div>
+                <div class="todo-list"></div>
+            </div>
             <div class="routine-progress"><div class="routine-progress-fill"></div></div>
         </div>
 
-        <!-- Midday Reset -->
-        <div class="routine-card" data-progress="50">
-            <div class="routine-matrix">13:00–15:00 • PHASE_GAMMA</div>
+        <!-- SUNRISE / MORNING -->
+        <div class="routine-card relative mb-10 group" data-prayer="sunrise" data-time="06:30 — 09:00">
+            <div class="absolute -left-[130px] top-1/2 -translate-y-1/2 text-right w-[100px]">
+                <div class="text-[#c5a059]/80 font-bold text-lg">SUNRISE</div>
+                <div class="text-[9px] text-zinc-500 uppercase tracking-widest">Active Start</div>
+            </div>
+            <div class="routine-matrix">CIRCADIAN_PHASE_2 • COGNITIVE_PEAK_1</div>
+            <span class="routine-status"></span>
+            <div class="routine-time">06:30</div>
+            <h3 class="routine-title">Hydration • Movement • Focus</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed mb-4">Biological peak for alertness. Physical movement, breakfast, and planning the day’s work.</p>
+            
+            <div class="todo-container" data-prayer="sunrise">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-[10px] uppercase tracking-widest text-zinc-500">Tasks</span>
+                    <button class="add-btn text-[#c5a059] hover:text-white transition">+ ADD</button>
+                </div>
+                <div class="todo-list"></div>
+            </div>
+            <div class="routine-progress"><div class="routine-progress-fill"></div></div>
+        </div>
+
+        <!-- DHUHR -->
+        <div class="routine-card relative mb-10 group" data-prayer="dhuhr" data-time="13:00 — 13:45">
+            <div class="absolute -left-[130px] top-1/2 -translate-y-1/2 text-right w-[100px]">
+                <div class="text-[#c5a059] font-bold text-lg">DHUHR</div>
+                <div class="text-[9px] text-zinc-500 uppercase tracking-widest">Midday</div>
+            </div>
+            <div class="routine-matrix">CIRCADIAN_PHASE_3 • ENERGY_SHIFT</div>
             <span class="routine-status"></span>
             <div class="routine-time">13:00</div>
-            <h3 class="routine-title">Recovery & Integration</h3>
-            <p class="text-zinc-400 text-sm leading-relaxed">Light nourishment, stillness, and reflection. Preventing cognitive decline and consolidating memory from morning work.</p>
+            <h3 class="routine-title">Prayer • Reset • Nourish</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed mb-4">Break from work, prayer, light meal, and short rest. Realign focus for the afternoon session.</p>
+            
+            <div class="todo-container" data-prayer="dhuhr">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-[10px] uppercase tracking-widest text-zinc-500">Tasks</span>
+                    <button class="add-btn text-[#c5a059] hover:text-white transition">+ ADD</button>
+                </div>
+                <div class="todo-list"></div>
+            </div>
             <div class="routine-progress"><div class="routine-progress-fill"></div></div>
         </div>
 
-        <!-- Growth Protocol -->
-        <div class="routine-card" data-progress="25">
-            <div class="routine-matrix">15:00–18:00 • PHASE_DELTA</div>
+        <!-- ASR -->
+        <div class="routine-card relative mb-10 group" data-prayer="asr" data-time="16:30 — 17:00">
+            <div class="absolute -left-[130px] top-1/2 -translate-y-1/2 text-right w-[100px]">
+                <div class="text-[#c5a059] font-bold text-lg">ASR</div>
+                <div class="text-[9px] text-zinc-500 uppercase tracking-widest">Afternoon</div>
+            </div>
+            <div class="routine-matrix">CIRCADIAN_PHASE_4 • FOCUS_END</div>
             <span class="routine-status"></span>
-            <div class="routine-time">15:00</div>
-            <h3 class="routine-title">Expansion & Connection</h3>
-            <p class="text-zinc-400 text-sm leading-relaxed">Skill development, communication, physical training, and community. Building capacity beyond core work.</p>
+            <div class="routine-time">16:30</div>
+            <h3 class="routine-title">Prayer • Wrap Up • Review</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed mb-4">Complete pending tasks, prayer, and reflect on progress made so far. Energy naturally dips — keep work light.</p>
+            
+            <div class="todo-container" data-prayer="asr">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-[10px] uppercase tracking-widest text-zinc-500">Tasks</span>
+                    <button class="add-btn text-[#c5a059] hover:text-white transition">+ ADD</button>
+                </div>
+                <div class="todo-list"></div>
+            </div>
             <div class="routine-progress"><div class="routine-progress-fill"></div></div>
         </div>
 
-        <!-- Evening Synthesis -->
-        <div class="routine-card" data-progress="10">
-            <div class="routine-matrix">18:00–22:00 • PHASE_EPSILON</div>
+        <!-- MAGHRIB -->
+        <div class="routine-card relative mb-10 group" data-prayer="maghrib" data-time="18:45 — 19:15">
+            <div class="absolute -left-[130px] top-1/2 -translate-y-1/2 text-right w-[100px]">
+                <div class="text-[#c5a059] font-bold text-lg">MAGHRIB</div>
+                <div class="text-[9px] text-zinc-500 uppercase tracking-widest">Sunset</div>
+            </div>
+            <div class="routine-matrix">CIRCADIAN_PHASE_5 • MELATONIN_START</div>
             <span class="routine-status"></span>
-            <div class="routine-time">18:00</div>
-            <h3 class="routine-title">Synthesis & Preservation</h3>
-            <p class="text-zinc-400 text-sm leading-relaxed">Review, journaling, and preparation for tomorrow. The moment where experience becomes wisdom stored for future use.</p>
+            <div class="routine-time">18:45</div>
+            <h3 class="routine-title">Prayer • Family • Wind Down</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed mb-4">End of active work. Prayer, time with family, gratitude, and light meal. Screens off, dim lights.</p>
+            
+            <div class="todo-container" data-prayer="maghrib">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-[10px] uppercase tracking-widest text-zinc-500">Tasks</span>
+                    <button class="add-btn text-[#c5a059] hover:text-white transition">+ ADD</button>
+                </div>
+                <div class="todo-list"></div>
+            </div>
             <div class="routine-progress"><div class="routine-progress-fill"></div></div>
         </div>
 
-        <!-- Night Regeneration -->
-        <div class="routine-card" data-progress="0">
-            <div class="routine-matrix">22:30–05:30 • PHASE_ZETA</div>
+        <!-- ISHA -->
+        <div class="routine-card relative mb-10 group" data-prayer="isha" data-time="21:00 — 21:45">
+            <div class="absolute -left-[130px] top-1/2 -translate-y-1/2 text-right w-[100px]">
+                <div class="text-[#c5a059] font-bold text-lg">ISHA</div>
+                <div class="text-[9px] text-zinc-500 uppercase tracking-widest">Night</div>
+            </div>
+            <div class="routine-matrix">CIRCADIAN_PHASE_6 • REGENERATION</div>
             <span class="routine-status"></span>
-            <div class="routine-time">22:30</div>
-            <h3 class="routine-title">Regeneration & Repair</h3>
-            <p class="text-zinc-400 text-sm leading-relaxed">Structured rest and biological recovery. Non-negotiable foundation for long-term performance and health.</p>
+            <div class="routine-time">21:00</div>
+            <h3 class="routine-title">Prayer • Journal • Rest</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed mb-4">Final prayer, write down lessons and goals, prepare for tomorrow. Sleep before midnight for full biological recovery.</p>
+            
+            <div class="todo-container" data-prayer="isha">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-[10px] uppercase tracking-widest text-zinc-500">Tasks</span>
+                    <button class="add-btn text-[#c5a059] hover:text-white transition">+ ADD</button>
+                </div>
+                <div class="todo-list"></div>
+            </div>
             <div class="routine-progress"><div class="routine-progress-fill"></div></div>
         </div>
     </div>
 
-    <div class="mt-32 glass-panel p-10 text-center max-w-2xl mx-auto">
+    <div class="glass-panel p-10 text-center max-w-2xl mx-auto">
         <h3 class="text-[#c5a059] uppercase tracking-[5px] text-sm mb-4">System Note</h3>
-        <p class="text-zinc-400 text-sm leading-relaxed">This routine matrix is designed to remain relevant for generations — it is not tied to current trends, but to fundamental human biology and cognitive science, ensuring it remains fully functional and understood 100 years from now.</p>
+        <p class="text-zinc-400 text-sm leading-relaxed">This routine is synced to both your internal body clock and the Islamic day cycle. All tasks are saved locally to your device — edit, check off, or reset daily.</p>
     </div>
 </div>
 `
@@ -1326,19 +1448,94 @@ function unlockCareer() {
         }});
     }
 }
-        // Animate routine progress bars
+    // --- ROUTINE + TODO SYSTEM ---
 const originalOpenPageRoutine = openPage;
 openPage = function(id) {
     originalOpenPageRoutine(id);
     if (id === 'routine') {
         setTimeout(() => {
+            // Animate progress bars
             document.querySelectorAll('.routine-card').forEach(card => {
-                const percent = card.dataset.progress;
+                const percent = card.dataset.progress || 0;
                 card.querySelector('.routine-progress-fill').style.width = percent + '%';
             });
+
+            // Initialize Todo System
+            initTodoSystem();
         }, 600);
     }
 };
+
+// Todo Logic — saves to browser storage
+function initTodoSystem() {
+    const containers = document.querySelectorAll('.todo-container');
+
+    containers.forEach(container => {
+        const prayerKey = container.dataset.prayer;
+        const listEl = container.querySelector('.todo-list');
+        const addBtn = container.querySelector('.add-btn');
+
+        // Load saved tasks
+        let tasks = JSON.parse(localStorage.getItem(`routine_${prayerKey}`) || '[]');
+
+        // Render tasks
+        function renderTasks() {
+            listEl.innerHTML = '';
+            tasks.forEach((task, idx) => {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'todo-item';
+                itemEl.innerHTML = `
+                    <span class="todo-text ${task.done ? 'completed' : ''}" onclick="toggleTask('${prayerKey}', ${idx})">${task.text}</span>
+                    <div class="todo-actions">
+                        <button onclick="editTask('${prayerKey}', ${idx})">✎</button>
+                        <button onclick="deleteTask('${prayerKey}', ${idx})">×</button>
+                    </div>
+                `;
+                listEl.appendChild(itemEl);
+            });
+        }
+
+        // Add new task
+        addBtn.onclick = () => {
+            const text = prompt("Enter new task:");
+            if (text && text.trim()) {
+                tasks.push({ text: text.trim(), done: false });
+                saveTasks();
+                renderTasks();
+            }
+        };
+
+        // Save to localStorage
+        function saveTasks() {
+            localStorage.setItem(`routine_${prayerKey}`, JSON.stringify(tasks));
+        }
+
+        // Expose functions globally
+        window.toggleTask = (key, idx) => {
+            const all = JSON.parse(localStorage.getItem(`routine_${key}`) || '[]');
+            all[idx].done = !all[idx].done;
+            localStorage.setItem(`routine_${key}`, JSON.stringify(all));
+            renderTasks();
+        };
+        window.editTask = (key, idx) => {
+            const all = JSON.parse(localStorage.getItem(`routine_${key}`) || '[]');
+            const newText = prompt("Edit task:", all[idx].text);
+            if (newText && newText.trim()) {
+                all[idx].text = newText.trim();
+                localStorage.setItem(`routine_${key}`, JSON.stringify(all));
+                renderTasks();
+            }
+        };
+        window.deleteTask = (key, idx) => {
+            const all = JSON.parse(localStorage.getItem(`routine_${key}`) || '[]');
+            all.splice(idx, 1);
+            localStorage.setItem(`routine_${key}`, JSON.stringify(all));
+            renderTasks();
+        };
+
+        renderTasks();
+    });
+}
     
         
 </script>
