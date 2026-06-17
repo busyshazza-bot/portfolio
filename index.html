@@ -213,6 +213,74 @@
     width: 100%;
     height: 400px; /* adjust as needed */
 }
+         /* --- ROUTINE SYSTEM STYLES --- */
+.routine-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+}
+.routine-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    padding: 2rem;
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+.routine-card:hover {
+    border-color: var(--accent-gold);
+    transform: translateY(-8px);
+    background: rgba(197, 160, 89, 0.04);
+}
+.routine-time {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    color: var(--accent-gold);
+    font-weight: 800;
+}
+.routine-title {
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 0.8rem;
+    margin: 0.5rem 0 1rem;
+    opacity: 0.7;
+}
+.routine-status {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: inline-block;
+    margin-right: 8px;
+}
+.routine-status.complete { background: #10b981; }
+.routine-status.active { background: #c5a059; animation: pulse 2s infinite; }
+.routine-progress {
+    height: 4px;
+    background: rgba(255,255,255,0.05);
+    margin-top: 1rem;
+    border-radius: 2px;
+    overflow: hidden;
+}
+.routine-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-gold), #f59e0b);
+    width: 0%;
+    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.routine-matrix {
+    position: absolute;
+    top: 0; right: 0;
+    font-size: 0.6rem;
+    opacity: 0.08;
+    letter-spacing: 2px;
+    transform: rotate(45deg);
+    pointer-events: none;
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
     /* --- END NEW CSS --- */
 
 </style>
@@ -293,6 +361,7 @@
     <div class="dock-item" onmouseenter="magnetic(event)" onclick="openPage('speech')">Public Speaking</div>
     <div class="dock-item" onmouseenter="magnetic(event)" onclick="openPage('career')">Career</div>
     <div class="dock-item" onmouseenter="magnetic(event)" onclick="openPage('bio')">Bio & Services</div>
+       <div class="dock-item" onmouseenter="magnetic(event)" onclick="openPage('routine')">Routine Archive</div>
 </div>
 
     <script>
@@ -883,8 +952,85 @@
                     </div>
                 </div>
             </div>
-        `
+        `,
+        routine: `
+<div class="max-w-7xl mx-auto pb-32">
+    <div class="mb-20">
+        <span class="text-[#c5a059] font-mono tracking-[12px] uppercase block mb-4 text-[10px]">System_Protocol_004</span>
+        <h2 class="text-8xl font-black tracking-tighter uppercase italic leading-none">Routine <br><span class="text-transparent" style="-webkit-text-stroke: 1px var(--accent-gold);">Archive.</span></h2>
+        <p class="text-zinc-500 mt-6 max-w-2xl">A temporal framework designed to preserve optimal daily structure — engineered for long-term human alignment, fully functional decades from now.</p>
+    </div>
+
+    <div class="routine-grid">
+        <!-- Morning Protocol -->
+        <div class="routine-card" data-progress="100">
+            <div class="routine-matrix">06:00–09:00 • PHASE_ALPHA</div>
+            <span class="routine-status complete"></span>
+            <div class="routine-time">06:00</div>
+            <h3 class="routine-title">Foundation & Clarity</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">Hydration, movement, and mental alignment. The most critical window for setting the trajectory of the day.</p>
+            <div class="routine-progress"><div class="routine-progress-fill"></div></div>
+        </div>
+
+        <!-- Focus Protocol -->
+        <div class="routine-card" data-progress="75">
+            <div class="routine-matrix">09:30–13:00 • PHASE_BETA</div>
+            <span class="routine-status active"></span>
+            <div class="routine-time">09:30</div>
+            <h3 class="routine-title">Deep Focus & Creation</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">Uninterrupted work, learning, and problem-solving. High cognitive load tasks reserved for peak neural efficiency.</p>
+            <div class="routine-progress"><div class="routine-progress-fill"></div></div>
+        </div>
+
+        <!-- Midday Reset -->
+        <div class="routine-card" data-progress="50">
+            <div class="routine-matrix">13:00–15:00 • PHASE_GAMMA</div>
+            <span class="routine-status"></span>
+            <div class="routine-time">13:00</div>
+            <h3 class="routine-title">Recovery & Integration</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">Light nourishment, stillness, and reflection. Preventing cognitive decline and consolidating memory from morning work.</p>
+            <div class="routine-progress"><div class="routine-progress-fill"></div></div>
+        </div>
+
+        <!-- Growth Protocol -->
+        <div class="routine-card" data-progress="25">
+            <div class="routine-matrix">15:00–18:00 • PHASE_DELTA</div>
+            <span class="routine-status"></span>
+            <div class="routine-time">15:00</div>
+            <h3 class="routine-title">Expansion & Connection</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">Skill development, communication, physical training, and community. Building capacity beyond core work.</p>
+            <div class="routine-progress"><div class="routine-progress-fill"></div></div>
+        </div>
+
+        <!-- Evening Synthesis -->
+        <div class="routine-card" data-progress="10">
+            <div class="routine-matrix">18:00–22:00 • PHASE_EPSILON</div>
+            <span class="routine-status"></span>
+            <div class="routine-time">18:00</div>
+            <h3 class="routine-title">Synthesis & Preservation</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">Review, journaling, and preparation for tomorrow. The moment where experience becomes wisdom stored for future use.</p>
+            <div class="routine-progress"><div class="routine-progress-fill"></div></div>
+        </div>
+
+        <!-- Night Regeneration -->
+        <div class="routine-card" data-progress="0">
+            <div class="routine-matrix">22:30–05:30 • PHASE_ZETA</div>
+            <span class="routine-status"></span>
+            <div class="routine-time">22:30</div>
+            <h3 class="routine-title">Regeneration & Repair</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">Structured rest and biological recovery. Non-negotiable foundation for long-term performance and health.</p>
+            <div class="routine-progress"><div class="routine-progress-fill"></div></div>
+        </div>
+    </div>
+
+    <div class="mt-32 glass-panel p-10 text-center max-w-2xl mx-auto">
+        <h3 class="text-[#c5a059] uppercase tracking-[5px] text-sm mb-4">System Note</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed">This routine matrix is designed to remain relevant for generations — it is not tied to current trends, but to fundamental human biology and cognitive science, ensuring it remains fully functional and understood 100 years from now.</p>
+    </div>
+</div>
+`
     };
+        
 
    const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
@@ -1180,6 +1326,19 @@ function unlockCareer() {
         }});
     }
 }
+        // Animate routine progress bars
+const originalOpenPageRoutine = openPage;
+openPage = function(id) {
+    originalOpenPageRoutine(id);
+    if (id === 'routine') {
+        setTimeout(() => {
+            document.querySelectorAll('.routine-card').forEach(card => {
+                const percent = card.dataset.progress;
+                card.querySelector('.routine-progress-fill').style.width = percent + '%';
+            });
+        }, 600);
+    }
+};
     
         
 </script>
