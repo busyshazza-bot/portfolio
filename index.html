@@ -7,10 +7,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@200;400;600&display=swap" rel="stylesheet">
-   <style>
+  <style>
     :root { 
         --bg-main: #050505;
         --accent-gold: #c5a059;
+        --accent-blue: #60a5fa;
+        --accent-green: #4ade80;
+        --accent-purple: #c084fc;
+        --accent-orange: #fb923c;
         --platinum: #e5e5e5;
         --glass: rgba(255, 255, 255, 0.02); 
         --glass-border: rgba(197, 160, 89, 0.15);
@@ -46,6 +50,12 @@
         position: fixed; inset: 0; z-index: 9999; 
         background: #000;
         display: flex; flex-direction: column; align-items: center; justify-content: center;
+        pointer-events: all;
+    }
+
+    #hero-container {
+        opacity: 0;
+        visibility: hidden;
     }
 
     .page-layer {
@@ -93,282 +103,265 @@
     .hex-title { font-size: 8px; opacity: 0.7; }
 
     .glass-panel {
-        background: var(--glass); border: 1px solid var(--glass-border);
-        padding: 40px; transition: var(--transition-smooth);
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        padding: 40px;
+        transition: var(--transition-smooth);
+        backdrop-filter: blur(10px);
     }
-           .glass-panel:hover { 
+    .glass-panel:hover { 
         background: rgba(197, 160, 89, 0.04);
         border-color: var(--accent-gold);
         transform: translateY(-5px);
     }
-         /* --- THE MARQUEE FIX --- */
-.marquee { 
-    overflow: hidden; 
-    white-space: nowrap; 
-    width: 100%; 
-    opacity: 0.3; /* Subtle look */
-    border-top: 1px solid rgba(197, 160, 89, 0.1);
-    border-bottom: 1px solid rgba(197, 160, 89, 0.1);
-    padding: 20px 0;
-}
 
-.marquee-content { 
-    display: inline-block; 
-    animation: runway 30s linear infinite; /* Adjust 30s for speed */
-    font-weight: 400; 
-    text-transform: uppercase; 
-    font-size: 12px; 
-    letter-spacing: 8px; 
-    color: var(--accent-gold);
-}
+    /* --- THE MARQUEE FIX --- */
+    .marquee { 
+        overflow: hidden; 
+        white-space: nowrap; 
+        width: 100%; 
+        opacity: 0.3;
+        border-top: 1px solid rgba(197, 160, 89, 0.1);
+        border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        padding: 20px 0;
+    }
+    .marquee-content { 
+        display: inline-block; 
+        animation: runway 30s linear infinite;
+        font-weight: 400; 
+        text-transform: uppercase; 
+        font-size: 12px; 
+        letter-spacing: 8px; 
+        color: var(--accent-gold);
+    }
+    @keyframes runway { 
+        from { transform: translateX(0); } 
+        to { transform: translateX(-50%); } 
+    }
 
-@keyframes runway { 
-    from { transform: translateX(0); } 
-    to { transform: translateX(-50%); } 
-}
-         .group:hover img {
-    filter: contrast(110%) brightness(110%) sepia(20%);
-}
+    .group:hover img {
+        filter: contrast(110%) brightness(110%) sepia(20%);
+    }
+    .group::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                    linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+        background-size: 100% 2px, 3px 100%;
+        pointer-events: none;
+        opacity: 0.3;
+    }
 
-/* Add a subtle scanline over the portfolio images */
-.group::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-    background-size: 100% 2px, 3px 100%;
-    pointer-events: none;
-    opacity: 0.3;
-}
-         .blocked-screen {
-    height: 60vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    border: 1px dashed rgba(255, 0, 0, 0.3);
-    background: rgba(255, 0, 0, 0.02);
-}
-             /* --- NEW CSS FOR RUNWAY TEXT ANIMATION --- */
-      /* --- NEW CSS FOR VERTICAL RUNWAY TEXT ANIMATION --- */
-   /* Container for the runway */
-.runway-wrapper {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 40px; /* Narrow strip on the right */
-    overflow: hidden;
-    opacity: 0.2; /* Slightly more visible than 0.1 for effect */
-    pointer-events: none;
-}
+    .blocked-screen {
+        height: 60vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border: 1px dashed rgba(255, 0, 0, 0.3);
+        background: rgba(255, 0, 0, 0.02);
+    }
 
-@keyframes vertical-runway-scroll {
-    from { transform: translateY(100%); }
-    to { transform: translateY(-100%); }
-}
+    /* --- VERTICAL RUNWAY TEXT ANIMATION --- */
+    .runway-wrapper {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        width: 40px;
+        overflow: hidden;
+        opacity: 0.2;
+        pointer-events: none;
+    }
+    @keyframes vertical-runway-scroll {
+        from { transform: translateY(100%); }
+        to { transform: translateY(-100%); }
+    }
+    .vertical-runway-text {
+        display: block;
+        white-space: nowrap;
+        writing-mode: vertical-rl;
+        text-orientation: upright;
+        font-family: monospace;
+        font-size: 10px;
+        letter-spacing: 4px;
+        color: #06b6d4;
+        animation: vertical-runway-scroll 20s linear infinite;
+    }
 
-.vertical-runway-text {
-    display: block;
-    white-space: nowrap;
-    writing-mode: vertical-rl; /* Built-in CSS for vertical text! */
-    text-orientation: upright; /* Keeps letters A-T-C-G stacked vertically */
-    font-family: monospace;
-    font-size: 10px;
-    letter-spacing: 4px;
-    color: #06b6d4; /* cyan-400 */
-    animation: vertical-runway-scroll 20s linear infinite;
-}
-         .glass-panel {
-    background: rgba(6, 182, 212, 0.03);
-    backdrop-filter: blur(10px);
-    box-shadow: inset 0 0 20px rgba(6, 182, 212, 0.05);
-}
-         /* Ensure the entrance is actually on top and clickable */
-#entrance {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: #000;
-    pointer-events: all; /* CRITICAL: Must be 'all' to click the button */
-}
+    .slideshow-container {
+        position: relative;
+        width: 100%;
+        height: 400px;
+    }
 
-/* Ensure the hero container starts hidden for GSAP to fade in */
-#hero-container {
-    opacity: 0;
-    visibility: hidden;
-}
+    /* ==============================================
+       ✅ ROUTINE & PROGRESS SYSTEM STYLES
+       Fully matched to your existing theme
+    ============================================== */
 
-/* Fix the Canvas so it doesn't eat your clicks */
-#canvas {
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none; /* Allows you to click 'through' the particles */
-}
-         .slideshow-container {
-    position: relative;
-    width: 100%;
-    height: 400px; /* adjust as needed */
-}
-         /* --- ROUTINE SYSTEM STYLES --- */
-.routine-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
-}
-.routine-card {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    padding: 2rem;
-    transition: var(--transition-smooth);
-    position: relative;
-    overflow: hidden;
-}
-.routine-card:hover {
-    border-color: var(--accent-gold);
-    transform: translateY(-8px);
-    background: rgba(197, 160, 89, 0.04);
-}
-.routine-time {
-    font-family: 'Syne', sans-serif;
-    font-size: 2.5rem;
-    color: var(--accent-gold);
-    font-weight: 800;
-}
-.routine-title {
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    font-size: 0.8rem;
-    margin: 0.5rem 0 1rem;
-    opacity: 0.7;
-}
-.routine-status {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.2);
-    display: inline-block;
-    margin-right: 8px;
-}
-.routine-status.complete { background: #10b981; }
-.routine-status.active { background: #c5a059; animation: pulse 2s infinite; }
-.routine-progress {
-    height: 4px;
-    background: rgba(255,255,255,0.05);
-    margin-top: 1rem;
-    border-radius: 2px;
-    overflow: hidden;
-}
-.routine-progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent-gold), #f59e0b);
-    width: 0%;
-    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.routine-matrix {
-    position: absolute;
-    top: 0; right: 0;
-    font-size: 0.6rem;
-    opacity: 0.08;
-    letter-spacing: 2px;
-    transform: rotate(45deg);
-    pointer-events: none;
-}
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-    /* --- UPDATED ROUTINE & TODO STYLES --- */
-.todo-container {
-    margin-top: 1rem;
-    padding: 0.75rem;
-    background: rgba(255,255,255,0.01);
-    border: 1px dashed rgba(197, 160, 89, 0.1);
-    border-radius: 4px;
-}
-.todo-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    transition: all 0.3s;
-}
-.todo-item:last-child { border-bottom: none; }
-.todo-text {
-    flex: 1;
-    font-size: 0.85rem;
-    color: var(--platinum);
-    cursor: pointer;
-    transition: all 0.3s;
-}
-.todo-text.completed {
-    text-decoration: line-through;
-    opacity: 0.4;
-}
-.todo-actions button {
-    background: none;
-    border: none;
-    color: var(--accent-gold);
-    opacity: 0.6;
-    cursor: pointer;
-    transition: all 0.3s;
-    margin-left: 0.5rem;
-}
-.todo-actions button:hover { opacity: 1; }
-.add-btn {
-    background: none;
-    border: none;
-    font-size: 0.8rem;
-    cursor: pointer;
-}
-/* Make timeline alignment perfect */
-.routine-card { position: relative; padding-left: 2rem; }
-}
-       /* --- ADD THESE BELOW YOUR EXISTING CODE --- */
+    /* Timeline layout */
+    .routine-card {
+        position: relative;
+        padding-left: 180px;
+        padding-right: 2rem;
+        margin-bottom: 3rem;
+        transition: var(--transition-smooth);
+    }
+    .routine-card:hover {
+        border-color: var(--accent-gold);
+        background: rgba(197, 160, 89, 0.04);
+    }
 
-/* Checkbox & completed style */
-.task-checkbox { 
-    accent-color: var(--accent-gold);
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-.completed { 
-    text-decoration: line-through; 
-    opacity: 0.55; 
-}
+    .routine-matrix {
+        font-family: monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        color: #71717a;
+        letter-spacing: 1px;
+        margin-bottom: 0.75rem;
+        position: static;
+        opacity: 0.6;
+        transform: none;
+    }
 
-/* Heatmap squares */
-.heat-day { 
-    width: 12px; 
-    height: 12px; 
-    border-radius: 2px; 
-    background: rgba(197, 160, 89, 0.12);
-}
+    .routine-time {
+        position: absolute;
+        left: 150px;
+        top: 0;
+        transform: translateX(-50%);
+        font-family: 'Syne', sans-serif;
+        font-size: 11px;
+        color: #a1a1aa;
+        font-weight: 500;
+    }
 
-/* Routine progress (updated to match your theme) */
-.routine-progress { 
-    height: 3px; 
-    background: rgba(255,255,255,0.05); 
-    border-radius: 2px; 
-    margin-top: 8px; 
-    overflow: hidden; 
-}
-.routine-progress-fill { 
-    height: 100%; 
-    width: 0%; 
-    background: linear-gradient(90deg, var(--accent-gold), #f8d27c); 
-    transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1); 
-}
+    .routine-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--platinum);
+        margin-bottom: 0.75rem;
+        text-transform: none;
+        letter-spacing: normal;
+    }
 
-/* Extra glow & polish for consistency */
-.routine-status.active { 
-    box-shadow: 0 0 10px var(--accent-gold); 
-}
-    /* --- END NEW CSS --- */
+    .routine-status {
+        position: absolute;
+        left: 150px;
+        top: 0.5rem;
+        transform: translateX(-50%);
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #27272a;
+        border: 2px solid #3f3f46;
+        z-index: 2;
+    }
+    .routine-status.active {
+        background: var(--accent-gold);
+        border-color: rgba(197, 160, 89, 0.4);
+        box-shadow: 0 0 10px var(--accent-gold);
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+    }
 
+    /* Progress bar inside cards */
+    .routine-progress {
+        height: 3px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 2px;
+        margin-top: 1rem;
+        overflow: hidden;
+    }
+    .routine-progress-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent-gold), #f8d27c);
+        transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Checkboxes & task styling */
+    .task-checkbox {
+        width: 16px;
+        height: 16px;
+        border: 1px solid #52525b;
+        border-radius: 3px;
+        background: #18181b;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        accent-color: var(--accent-gold);
+    }
+    .task-checkbox:checked {
+        border-color: var(--accent-gold);
+        background: var(--accent-gold);
+    }
+    .completed {
+        text-decoration: line-through;
+        opacity: 0.55;
+    }
+
+    /* Custom Todo section */
+    .todo-container {
+        margin-top: 1rem;
+        padding: 0.75rem;
+        background: rgba(255,255,255,0.01);
+        border: 1px dashed rgba(197, 160, 89, 0.1);
+        border-radius: 4px;
+    }
+    .add-btn {
+        background: none;
+        border: none;
+        font-size: 12px;
+        cursor: pointer;
+        color: var(--accent-gold);
+        transition: var(--transition-smooth);
+    }
+    .add-btn:hover {
+        color: #fff;
+    }
+
+    /* Progress dashboard circle */
+    #daily-circle {
+        transform: rotate(-90deg);
+        transform-origin: 50% 50%;
+        transition: stroke-dashoffset 0.6s ease;
+    }
+
+    /* Heatmap squares */
+    #heatmap {
+        min-height: 60px;
+    }
+    .heat-day {
+        width: 100%;
+        aspect-ratio: 1;
+        border-radius: 2px;
+        transition: background 0.3s ease;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .routine-card {
+            padding-left: 0;
+            padding-top: 4rem;
+        }
+        .routine-time,
+        .routine-status {
+            position: static;
+            text-align: left;
+            margin-bottom: 0.5rem;
+            transform: none;
+            left: auto;
+            top: auto;
+        }
+        .absolute.left-\[150px\] {
+            display: none;
+        }
+    }
 </style>
 </head>
 <body>
