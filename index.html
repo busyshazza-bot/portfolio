@@ -1911,6 +1911,111 @@ window.onload = () => {
     loadState();
     updateHeatmap();
 };
+// --- 🚀 ADD THIS AT THE END OF YOUR EXISTING <script> BLOCK ---
+
+// Routine Progress & Archive Tracking
+const PROTOCOL_KEY = "circadian_archive_data";
+let archiveData = JSON.parse(localStorage.getItem(PROTOCOL_KEY)) || { history: {}, today: {} };
+
+function getTodayKey() { return new Date().toISOString().slice(0,10); }
+function saveData() { localStorage.setItem(PROTOCOL_KEY, JSON.stringify(archiveData)); }
+
+function calculateProgress() {
+    const todayKey = getTodayKey();
+    const allChecks = document.querySelectorAll('.task-checkbox');
+    let total = allChecks.length, done = 0;
+    let cat = { spiritual:0, work:0, health:0, review:0, rest:0 };
+
+    allChecks.forEach(cb => {
+        const isChecked = cb.checked;
+        if (isChecked) done++;
+        const parent = cb.closest('[data-category]');
+        if (parent) cat[parent.dataset.category] += isChecked ? 1 : 0;
+    });
+
+    const percent = total ? Math.round((done / total) * 100) : 0;
+    archiveData.today = { done, total, percent, categories: cat };
+    archiveData.history[todayKey] = archiveData.today;
+    saveData();
+    updateUI(percent, done, total, cat);
+}
+
+function updateUI(pct, done, total, cat) {
+    const el = id => document.getElementById(id);
+    el('daily-percent').textContent = pct + '%';
+    el('daily-circle').style.strokeDashoffset = 100 - pct;
+    el('daily-completed').textContent = done;
+    el('daily-total').textContent = total;
+    el('rhythm-score').textContent = pct + '/100';
+    el('streak-days').textContent = calculateStreak() + ' days';
+
+    Object.keys(cat).forEach(k => {
+        const val = total ? Math.round((cat[k]/total)*100) : 0;
+        el(`bar-${k}`).style.width = val + '%';
+        el(`year-${k}`).textContent = val + '%';
+    });
+
+    updateHeatmap();
+}
+
+function calculateStreak() {
+    let streak = 0, d = new Date();
+    while(true) {
+        const key = d.toISOString().slice(0,10);
+        if (!archiveData.history[key] || archiveData.history[key].percent < 70) break;
+        streak++; d.setDate(d.getDate() - 1);
+    }
+    return streak;
+}
+
+function updateHeatmap() {
+    const heatmap = document.getElementById('heatmap');
+    if (!heatmap) return;
+    heatmap.innerHTML = '';
+    const d = new Date(); d.setDate(d.getDate() - 30);
+    for(let i=0; i<30; i++) {
+        const p = archiveData.history[d.toISOString().slice(0,10)]?.percent || 0;
+        const color = p >= 70 ? '#c5a059' : p >= 40 ? '#947a45' : '#443a26';
+        const div = Object.assign(document.createElement('div'), { className: 'heat-day' });
+        div.style.background = color;
+        heatmap.appendChild(div);
+        d.setDate(d.getDate() + 1);
+    }
+}
+
+function loadRoutineState() {
+    const today = archiveData.history[getTodayKey()];
+    if (!today) return;
+    document.querySelectorAll('.task-checkbox').forEach((cb, i) => {
+        cb.checked = today.tasks?.[i] || false;
+        cb.closest('li').classList.toggle('completed', cb.checked);
+    });
+    calculateProgress();
+}
+
+// Initialize when Routine page opens
+const originalOpenPage = window.openPage;
+window.openPage = function(id) {
+    originalOpenPage(id);
+    if (id === 'routine') setTimeout(() => { loadRoutineState(); updateHeatmap(); }, 300);
+};
+
+// Checkbox change listener
+document.addEventListener('change', e => {
+    if (e.target.classList.contains('task-checkbox')) {
+        e.target.closest('li').classList.toggle('completed', e.target.checked);
+        calculateProgress();
+    }
+});
+
+// Reset button
+document.addEventListener('click', e => {
+    if (e.target.id === 'reset-data' && confirm('Clear all history? This cannot be undone.')) {
+        localStorage.removeItem(PROTOCOL_KEY);
+        archiveData = { history: {}, today: {} };
+        location.reload();
+    }
+});
 }
     
         
