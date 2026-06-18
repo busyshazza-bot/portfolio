@@ -1583,15 +1583,32 @@ if (typeof openPage !== 'undefined') {
     animate();
 
     // --- 5. NAVIGATION LOGIC ---
-    function openPage(id) {
-        const display = document.getElementById('page-display');
-        const contentBox = document.getElementById('dynamic-content');
-        contentBox.innerHTML = content[id] || "Encrypted Data Lost...";
-        display.classList.add('active');
-        
-        // Staggered entrance for page content
-        gsap.from("#dynamic-content > *", { opacity: 0, y: 30, duration: 0.8, delay: 0.4, ease: "power2.out" });
+   function openPage(id) {
+    const display = document.getElementById('page-display');
+    const contentBox = document.getElementById('dynamic-content');
+    
+    contentBox.innerHTML = content[id] || "Encrypted Data Lost...";
+    display.classList.add('active');
+
+    gsap.fromTo("#dynamic-content > *", 
+        { opacity: 0, y: 50, filter: "blur(10px)" }, 
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 1, delay: 0.5, stagger: 0.1, ease: "power4.out" }
+    );
+
+    if (id === 'quran') {
+        setTimeout(initQuranGrid, 150);
     }
+    if (id === 'portfolio') {
+        setTimeout(startSlideshow, 250);
+    }
+    if (id === 'routine') {
+        setTimeout(() => {
+            initTodoSystem();
+            loadState();
+            calculateProgress();
+        }, 700);
+    }
+}
         // Function to populate the grid
 function initQuranGrid() {
         const grid = document.getElementById('quran-grid');
