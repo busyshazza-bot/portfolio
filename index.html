@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Infinite Archive | 2070 Edition</title>
-        <script src="https://cdn.tailwindcss.com" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@200;400;600&display=swap" rel="stylesheet">
      <style>
     :root { 
@@ -269,6 +269,19 @@
     </div>
 </div>
     </main>
+  <header id="hero-container" class="h-screen flex flex-col justify-center items-center text-center relative overflow-hidden">
+    <div class="hero-bg-road"></div>
+
+    <audio id="track1" preload="auto"><source src="wya.m4a" type="audio/mp4"></audio>
+    <audio id="track2" loop preload="auto"><source src="tbg.m4a" type="audio/mp4"></audio>
+
+    <div onclick="toggleMusic()" class="absolute bottom-12 right-12 z-[100] cursor-pointer group">
+        <div class="flex items-center gap-4 border border-white/10 px-6 py-3 rounded-full hover:bg-white/10 transition">
+            <div id="status-dot" class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></div>
+            <span id="musicText" class="text-[8px] tracking-[0.4em] uppercase opacity-50">Atmosphere Off</span>
+        </div>
+    </div>
+</header>
     <div id="page-display" class="page-layer">
         <div class="text-right text-[10px] tracking-[5px] mb-20 cursor-pointer" onclick="closeAll()">[ ESC ]</div>
         <div id="dynamic-content"></div>
@@ -280,8 +293,8 @@
     <div class="dock-item" onmouseenter="magnetic(event)" onclick="openPage('speech')">Public Speaking</div>
     <div class="dock-item" onmouseenter="magnetic(event)" onclick="openPage('career')">Career</div>
     <div class="dock-item" onmouseenter="magnetic(event)" onclick="openPage('bio')">Bio & Services</div>
-    <div class="dock-item" style="color: var(--accent-gold);" onmouseenter="magnetic(event)" onclick="openPage('chronos')">// Chronos Matrix</div>
 </div>
+
     <script>
     function enterSite() {
     const intro = document.getElementById('track1');
@@ -871,52 +884,7 @@
                 </div>
             </div>
         `
-    // ADD THIS CHRONOS LAYER DOWN BELOW
-    chronos: `
-        <div class="max-w-7xl mx-auto pb-24">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 border-b border-[#c5a059]/10 pb-10">
-                <div>
-                    <span class="text-[#c5a059] font-mono tracking-[10px] uppercase block mb-4 animate-pulse">// SYSTEM INTERFACE</span>
-                    <h2 class="text-5xl font-black tracking-tighter uppercase italic leading-[0.9]">Chronos <br><span class="text-transparent" style="-webkit-text-stroke: 1px var(--accent-gold);">Matrix.</span></h2>
-                </div>
-                <div class="text-right font-mono text-xs text-zinc-400">
-                    <div>RESONANCE ALIGNMENT INDEX: <span id="res-score" class="text-[#c5a059] font-bold">100%</span></div>
-                    <div class="opacity-40 text-[10px] mt-1">EPOCH TIME AXIS SPAN: 2070 // 2126</div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
-                <div class="glass-panel p-8 rounded-none space-y-6">
-                    <div>
-                        <h3 class="text-xs font-bold tracking-widest text-[#c5a059] uppercase" style="font-family: 'Orbitron', sans-serif;">Inject Anchor Node</h3>
-                        <p class="text-[11px] text-zinc-500 mt-1 uppercase tracking-wider">Materialize physical or mental anchors into the timeline.</p>
-                    </div>
-                    <form id="matrix-injector" class="space-y-4" onsubmit="injectNewNode(event)">
-                        <div>
-                            <label class="block text-[10px] uppercase tracking-widest text-zinc-400 mb-2 font-mono">Anchor Designation</label>
-                            <input type="text" id="node-title" required placeholder="e.g., Deep State Neural Recharge" 
-                                   class="w-full bg-black/60 border border-[#c5a059]/20 rounded-none px-4 py-3 text-xs focus:outline-none focus:border-[#c5a059] text-white tracking-wide">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] uppercase tracking-widest text-zinc-400 mb-2 font-mono">Energy Matrix Blueprint</label>
-                            <select id="node-blueprint" class="w-full bg-black/60 border border-[#c5a059]/20 rounded-none px-4 py-3 text-xs focus:outline-none focus:border-[#c5a059] text-zinc-400">
-                                <option value="vitality">Vitality (Physical Health / Ritual)</option>
-                                <option value="cognition">Cognition (Focus / Output)</option>
-                                <option value="essence">Essence (Spirit / Rest)</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="w-full text-[10px] tracking-[4px] uppercase border border-[#c5a059]/40 bg-[#c5a059]/10 text-white font-bold py-4 hover:bg-[#c5a059] hover:text-black transition-all duration-500 cursor-pointer">
-                            Synthesize Node
-                        </button>
-                    </form>
-                </div>
-
-                <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto pr-2" id="nodes-core-grid">
-                    </div>
-            </div>
-        </div>
-    `
-};
+    };
 
    const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
@@ -1211,120 +1179,6 @@ function unlockCareer() {
             gsap.from(actualContent, { opacity: 0, y: 20, duration: 1 });
         }});
     }
-}
-        // ==========================================
-// CHRONOS SYSTEM MATRIX INTERACTIVE ENGINE 
-// ==========================================
-
-let routines = [
-    { id: 1, name: "Sub-harmonic Sleep Wake Cycle", type: "essence", completed: true, resonance: 100 },
-    { id: 2, name: "Neural Pathway Syncing (Coding)", type: "cognition", completed: false, resonance: 64 },
-    { id: 3, name: "Molecular Hydration & Fueling", type: "vitality", completed: false, resonance: 42 }
-];
-
-const matrixColors = {
-    vitality: { border: 'border-emerald-500/20', bg: 'bg-emerald-500/5', text: 'text-emerald-400' },
-    cognition: { border: 'border-amber-500/20', bg: 'bg-amber-500/5', text: 'text-amber-400' },
-    essence: { border: 'border-serif-gold/20', bg: 'bg-[#c5a059]/5', text: 'text-[#c5a059]' }
-};
-
-// Update openPage function to initialize the matrix grid when loaded
-const originalOpenPage = openPage;
-openPage = function(key) {
-    originalOpenPage(key);
-    if (key === 'chronos') {
-        renderRoutineMatrix();
-    }
-}
-
-function renderRoutineMatrix() {
-    const coreGrid = document.getElementById('nodes-core-grid');
-    if(!coreGrid) return;
-
-    coreGrid.innerHTML = '';
-
-    if (routines.length === 0) {
-        coreGrid.innerHTML = `<div class="col-span-2 text-center py-12 text-zinc-600 font-mono text-xs uppercase tracking-widest border border-dashed border-zinc-800">[ Timeline Node Array Depleted ]</div>`;
-        updateGlobalScore();
-        return;
-    }
-
-    routines.forEach(node => {
-        const theme = matrixColors[node.type];
-        const activeState = node.completed 
-            ? `border-zinc-800 bg-zinc-950/40 opacity-30 line-through` 
-            : `hover:border-[#c5a059]/60 bg-white/[0.01]`;
-
-        const element = document.createElement('div');
-        element.className = `p-6 border border-white/5 relative group flex flex-col justify-between h-44 transition-all duration-500 cursor-pointer ${activeState}`;
-        element.onclick = () => mutateNodeState(node.id);
-
-        element.innerHTML = `
-            <div class="flex justify-between items-start gap-4">
-                <div>
-                    <span class="text-[9px] font-mono tracking-widest uppercase px-2 py-0.5 border border-white/10 bg-black text-zinc-400">${node.type}</span>
-                    <h4 class="text-sm font-semibold tracking-wide mt-4 text-zinc-200 group-hover:text-white transition-colors">${node.name}</h4>
-                </div>
-                <div class="w-4 h-4 rounded-full border border-zinc-700 flex items-center justify-center text-[9px] ${node.completed ? 'bg-[#c5a059] border-[#c5a059] text-black' : 'group-hover:border-[#c5a059]'}">
-                    ${node.completed ? '✓' : ''}
-                </div>
-            </div>
-            <div class="w-full space-y-2">
-                <div class="flex justify-between text-[9px] font-mono tracking-wider opacity-40">
-                    <span>RESONANCE COEFFICIENT</span>
-                    <span>${node.resonance}%</span>
-                </div>
-                <div class="w-full bg-zinc-950 h-[2px] overflow-hidden">
-                    <div class="h-full bg-gradient-to-r from-[#c5a059] to-amber-200 transition-all duration-700" style="width: ${node.resonance}%"></div>
-                </div>
-            </div>
-        `;
-        coreGrid.appendChild(element);
-    });
-
-    updateGlobalScore();
-}
-
-function mutateNodeState(id) {
-    routines = routines.map(node => {
-        if (node.id === id) {
-            const nextState = !node.completed;
-            return {
-                ...node,
-                completed: nextState,
-                resonance: nextState ? 100 : Math.floor(Math.random() * 40) + 30
-            };
-        }
-        return node;
-    });
-    renderRoutineMatrix();
-}
-
-function updateGlobalScore() {
-    const displayScore = document.getElementById('res-score');
-    if(!displayScore) return;
-    if(routines.length === 0) { displayScore.innerText = "0%"; return; }
-    
-    const total = routines.reduce((acc, curr) => acc + curr.resonance, 0);
-    displayScore.innerText = `${Math.round(total / routines.length)}%`;
-}
-
-function injectNewNode(e) {
-    e.preventDefault();
-    const titleInput = document.getElementById('node-title');
-    const blueprintInput = document.getElementById('node-blueprint');
-
-    const node = {
-        id: Date.now(),
-        name: titleInput.value,
-        type: blueprintInput.value,
-        completed: false,
-        resonance: Math.floor(Math.random() * 20) + 60
-    };
-
-    routines.unshift(node);
-    renderRoutineMatrix();
-    titleInput.value = '';
 }
     
         
